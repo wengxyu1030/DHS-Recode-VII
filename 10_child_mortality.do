@@ -3,10 +3,10 @@
 *** Child mortality***********
 ******************************   
 
-*mor_dob				Child date of birth (cmc)
+*mor_dob				Child date of birth (cmc) 
     gen mor_dob = v011
 	
-*mor_wln				Woman line number in HH to match child with mother (original)
+*mor_wln				Woman line number in HH to match child with mother (original) 
     gen mor_wln = v003
 	
 *mor_ali				Child still alive (1/0)
