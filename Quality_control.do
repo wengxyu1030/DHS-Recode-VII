@@ -7,7 +7,9 @@ could be adjusted later */
 /* Note: run for DHS.dta and replace, to allign with Myanmar2015 
 use "${SOURCE}/external/DHS.dta", clear
 replace surveyid = "MM2015DHS" if surveyid == "MM2016DHS"
-replace surveyid = "AM2015DHS" if surveyid == "AM2016DHS" */
+replace surveyid = "AM2015DHS" if surveyid == "AM2016DHS" 
+replace surveyid = "BI2016DHS" if surveyid == "BU2016DHS"
+*/
 
 tempfile dhs hefpi
 
@@ -160,22 +162,20 @@ The bidx is nt used in the hefpi indicator caluclation
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
 	
-***for vriables generated from 9_child_anthropometrics
+***for variables generated from 9_child_anthropometrics
 	foreach var of var c_underweight c_stunted	hc70 hc71 ant_sampleweight{
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
 
-***for hive indicators from 12_hiv
+***for hiv indicators from 12_hiv
               foreach var of var a_hiv*{
               replace `var'=. if hm_age_yrs<15 | (hm_age_yrs>49 & hm_age_yrs!=.)
     }
               
-***for hive indicators from 13_adult
+***for variables generated from 13_adult
               foreach var of var a_diab_treat  a_inpatient_1y a_bp_treat a_bp_sys a_bp_dial a_hi_bp140_or_on_med a_bp_meas{
-    replace `var'=. if hm_age_yrs<18
-}
-	
-	
+			  replace `var'=. if hm_age_yrs<18
+}	
 	
 	
 *********************************
