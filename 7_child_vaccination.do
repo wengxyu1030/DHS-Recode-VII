@@ -3,16 +3,18 @@
 *** Child vaccination ********
 ******************************   
 
-*c_measles	child			Child received measles1/MMR1 vaccination
-        gen c_measles  = . 
+*c_measles	child			Child received measles1/MMR1 vaccination	
+		gen c_measles  = . 
 		if ~inlist(name,"Albania2017") {
 			replace c_measles = 1 if (h9 ==1 | h9 ==2 | h9 ==3)  
-			replace c_measles = 0 if h9 ==0  
+			replace c_measles = 0 if h9 ==0 
 		}
 		if inlist(name,"Albania2017") {
 			replace c_measles = 0 if h1 == 1
 			replace c_measles = 1 if (h9 ==1 | h9 ==2 | h9 ==3)
 		}	
+		
+		
 *c_dpt1	child			Child received DPT1/Pentavalent 1 vaccination	
         gen c_dpt1  = .
 		if ~inlist(name,"Albania2017") {

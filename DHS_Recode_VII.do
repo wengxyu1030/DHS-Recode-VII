@@ -31,16 +31,16 @@ global OUT "${root}/STATA/DATA/SC/FINAL"
 global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
-global DO "${root}/STATA/DO/SC/DHS/Recode VII"
+global DO "${root}/STATA/DO/SC/DHS/Recode VII/Git-DHS-Recode-VII"
 
 * Define the country names (in globals) in by Recode
-    /*
+    
 	do "${DO}/0_GLOBAL.do"
-	*/
-global DHScountries_Recode_VII "Nepal2016"  //run with Afghanistan2015 as test.
+	
+// global DHScountries_Recode_VII "Jordan2017"  //run with Afghanistan2015 as test.$DHScountries_Recode_VII
 
-foreach name in $DHScountries_Recode_VII{	
-
+foreach name in $DHScountries_Recode_VII {	
+clear
 tempfile birth ind men hm hiv hh iso
 
 ******************************
@@ -92,6 +92,7 @@ gen name = "`name'"
     do "${DO}/4_sexual_health"
     do "${DO}/5_woman_anthropometrics"
     do "${DO}/16_woman_cancer"
+	//do "${DO}/17_woman_cancer_age_ref.do"
 *housekeeping for ind data
 
     *hm_dob	date of birth (cmc)
@@ -101,7 +102,7 @@ gen name = "`name'"
 keep v001 v002 v003 w_* hm_*
 rename (v001 v002 v003) (hv001 hv002 hvidx)
 save `ind' 
-
+/*
 ******************************
 *****domains using men data***
 ******************************
@@ -114,7 +115,7 @@ gen name = "`name'"
 keep mv001 mv002 mv003 hm_*
 rename (mv001 mv002 mv003) (hv001 hv002 hvidx)
 save `men'
-
+*/
 
 ************************************
 *****domains using hm level data****
@@ -130,9 +131,9 @@ keep hv001 hv002 hvidx hc70 hc71 ///
 c_* ant_* a_* hm_* ln
 save `hm'
 
-capture confirm file "${SOURCE}/DHS/DHS-`name'/DHS-`name'hiv.dta"
+capture confirm file "${SOURCE}/DHS-`name'/DHS-`name'hiv.dta"
  if _rc==0 {
-    use "${SOURCE}/DHS/DHS-`name'/DHS-`name'hiv.dta", clear
+    use "${SOURCE}/DHS-`name'/DHS-`name'hiv.dta", clear
     do "${DO}/12_hiv"
  }
  if _rc!= 0 {
@@ -169,20 +170,23 @@ save `hh'
 use "${SOURCE}/external/iso", clear 
 keep country iso2c iso3c	
 replace country = "Tanzania"  if country == "Tanzania, United Republic of"
+replace country = "PapuaNewGuinea" if country == "Papua New Guinea"
 
 save `iso'
 
 ***merge all subset of microdata
 use `hm',clear
 
-    merge 1:m hv001 hv002 hvidx using `birth',update              //missing update is zero, non missing conflict for all matched.(hvidx different) 
+    merge 1:m hv001 hv002 hvidx using `birth',update      //missing update is zero, non missing conflict for all matched.(hvidx different) 
+	bysort hv001 hv002: egen min = min(w_sampleweight)
+	replace w_sampleweight = min if w_sampleweight ==.
     replace hm_headrel = 99 if _merge == 2
 	label define hm_headrel_lab 99 "dead/no longer in the household"
 	label values hm_headrel hm_headrel_lab
 	replace hm_live = 0 if _merge == 2 | inlist(hm_headrel,.,12,98)
 	drop _merge
     merge m:m hv001 hv002 hvidx using `ind',nogen update
-	merge m:m hv001 hv002 hvidx using `men',nogen update
+//	merge m:m hv001 hv002 hvidx using `men',nogen update
 	merge m:m hv001 hv002       using `hh',nogen update
 
     tab hh_urban,mi  //check whether all hh member + dead child + child lives outside hh assinged hh info
@@ -192,6 +196,8 @@ use `hm',clear
 	gen year = real(substr("`name'",-4,.))
 	tostring(year),replace
     gen country = regexs(0) if regexm("`name'","([a-zA-Z]+)")
+	replace country = "South Africa" if country == "SouthAfrica"
+	replace country = "Timor-Leste" if country == "Timor"
 	
     merge m:1 country using `iso',force
     drop if _merge == 2
@@ -199,11 +205,15 @@ use `hm',clear
 
 *** Quality Control: Validate with DHS official data
     gen surveyid = iso2c+year+"DHS"
+
 	preserve 
 	do "${DO}/Quality_control"
 	save "${INTER}/quality_control-`name'.dta",replace
+	cd "${INTER}"
+	do "${DO}/Quality_control_result"
+	save "${OUT}/quality_control",replace 
     restore
-	
+
 *** Specify sample size to HEFPI
 	
     ***for variables generated from 1_antenatal_care 2_delivery_care 3_postnatal_care
@@ -228,9 +238,9 @@ use `hm',clear
     }
 	
 	***for variables generated from 8_child_illness	
-	foreach var of var c_ari	c_diarrhea 	c_diarrhea_hmf	c_diarrhea_medfor	c_diarrhea_mof	c_diarrhea_pro	c_diarrheaact ///
-	c_diarrheaact_q	c_fever	c_fevertreat	c_illness	c_illtreat	c_sevdiarrhea	c_sevdiarrheatreat ///
-	c_sevdiarrheatreat_q	c_treatARI	c_treatdiarrhea	c_diarrhea_med {
+	foreach var of var c_ari c_ari2	c_diarrhea 	c_diarrhea_hmf	c_diarrhea_medfor	c_diarrhea_mof	c_diarrhea_pro	c_diarrheaact ///
+	c_diarrheaact_q	c_fever	c_fevertreat	c_illness c_illness2 c_illtreat	c_illtreat2 c_sevdiarrhea	c_sevdiarrheatreat ///
+	c_sevdiarrheatreat_q	c_treatARI	c_treatARI2 c_treatdiarrhea	c_diarrhea_med {
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
 	
@@ -238,6 +248,7 @@ use `hm',clear
 	foreach var of var c_underweight c_stunted	hc70 hc71 ant_sampleweight{
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
+	
 	***for hive indicators from 12_hiv
     foreach var of var a_hiv*{
     replace `var'=. if hm_age_yrs<15 | (hm_age_yrs>49 & hm_age_yrs!=.)
