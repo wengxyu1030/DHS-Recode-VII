@@ -38,27 +38,35 @@
 		replace a_bp_treat=0 if sh250!=. 
 		replace a_bp_treat=1 if sh250==1 
 	}
-
+	if inlist(name,"Bangladesh2017") {
+		replace a_bp_treat=sb318a
+	}	
 	if inlist(name,"SouthAfrica2016") {
 	replace a_bp_treat=0 if sh224!=. | sh324!=.
 	replace a_bp_treat=1 if sh224==1 | sh324==1
 	}
 	
 *a_bp_sys 18y+ systolic blood pressure (mmHg) in adult population 
-  
+  	if inlist(name,"Bangladesh2017") {
+		recode sb315a sb323a sb332a (994 995 996 997 998 999 =.)
+		egen a_bp_sys = rowmean(sb315a sb323a sb332a)
+	}
 	if inlist(name,"SouthAfrica2016") {
 	egen a_bp_sys = rowmean(sh221a sh228a sh232a sh321a sh328a sh332a)
 	}
-	if ~inlist(name,"SouthAfrica2016") {
+	if ~inlist(name,"Bangladesh2017","SouthAfrica2016") {
 	gen a_bp_sys = .
 	}
 	
 *a_bp_dial	18y+ diastolic blood pressure (mmHg) in adult population 
-
+	if inlist(name,"Bangladesh2017") {
+		recode sb315b sb323b sb332b (994 995 996 997 998 999 =.)		
+		egen a_bp_dial = rowmean(sb315b sb323b sb332b)
+	}
 	if inlist(name,"SouthAfrica2016") {
 	egen a_bp_dial = rowmean(sh221b sh228b sh232b sh321b sh328b sh332b)
 	}
-	if ~inlist(name,"SouthAfrica2016") {
+	if ~inlist(name,"Bangladesh2017","SouthAfrica2016") {
 	gen a_bp_dial = .
 	}
 	
@@ -86,7 +94,10 @@
 	
 *a_bp_meas				18y+ having their blood pressure measured by health professional in the last year  
     gen a_bp_meas = . 
-	
+	if inlist(name,"Bangladesh2017") {
+		recode sb316 (7 =.)		
+		replace a_bp_meas = sb316
+	}	
 *a_diab_treat				18y+ being treated for raised blood glucose or diabetes 
     gen a_diab_treat = .
 
@@ -98,4 +109,6 @@
 		replace a_diab_treat=. if sh257==.|sh257==8|sh257==9|sh259==9
     }		
 
-
+	if inlist(name,"Bangladesh2017") {
+		replace a_diab_treat = sb327a
+	}
