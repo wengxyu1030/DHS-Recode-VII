@@ -89,12 +89,37 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	*c_caesarean: Last birth in last 2 years delivered through caesarean                    
 	clonevar c_caesarean = m17
 	replace c_caesarean = . if m17 == 8
+	replace c_caesarean = . if m15 == .
 	
     *c_sba_eff1: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth)
-  
+  	if !inlist(name,"Angola2015","Burundi2016","Cameroon2018","Colombia2015","Nepal2016","Tanzania2015"){
 	gen stay = 0 if m15 != .
 	replace stay = 1 if stay == 0 & (inrange(m61,124,198)|inrange(m61,201,298)|inrange(m61,301,399))
 	replace stay = . if inlist(m61,299,998)  & !inlist(m15,11,12,96) // filter question, based on m15
+	}
+	if inlist(name,"Angola2015","Burundi2016"){
+	gen stay = 0 if m15 != .
+	replace stay = 1 if stay == 0 & (inrange(m61,124,198)|inrange(m61,201,298)|inrange(m61,301,399))
+	replace stay = . if inlist(m61,299,998)  & !inlist(m15,11,12,36,96) // filter question, based on m15
+	}
+	if inlist(name,"Cameroon2018"){
+	gen stay = 0 if m15 != .
+	replace stay = 1 if stay == 0 & (inrange(m61,124,198)|inrange(m61,201,298)|inrange(m61,301,399))
+	replace stay = . if inlist(m61,299,998)  & !inlist(m15,11,12,26,96) // filter question, based on m15
+	}
+	if inlist(name,"Colombia2015"){
+	gen stay = .
+	}	
+	if inlist(name,"Nepal2016"){
+	gen stay = 0 if m15 != .
+	replace stay = 1 if stay == 0 & (inrange(m61,124,198)|inrange(m61,201,298)|inrange(m61,301,399))
+	replace stay = . if inlist(m61,299,998)  & !inlist(m15,11,12,51,96) // filter question, based on m15
+	}
+	if inlist(name,"Tanzania2015"){
+	gen stay = 0 if m15 != .
+	replace stay = 1 if stay == 0 & (inrange(m61,124,198)|inrange(m61,201,298)|inrange(m61,301,399))
+	replace stay = . if inlist(m61,299,998)  & !inlist(m15,11,12,13,96) // filter question, based on m15
+	}
 	gen c_sba_eff1 = (c_facdel == 1 & c_sba == 1 & stay == 1 & c_earlybreast == 1) 
 	replace c_sba_eff1 = . if c_facdel == . | c_sba == . | stay == . | c_earlybreast == . 
 		

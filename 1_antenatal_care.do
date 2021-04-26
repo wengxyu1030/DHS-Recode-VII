@@ -119,6 +119,11 @@
 		
 	gen c_anc_tet = (rh_anc_neotet == 1) if  !mi(rh_anc_neotet)
 	
+	if inlist(name,"Bangladesh2017"){
+		replace c_anc_tet=.
+		replace rh_anc_neotet =.
+	}
+	
 	*c_anc_tet_q: pregnant women vaccinated against tetanus among ANC users for last birth in last 2 years
 	gen c_anc_tet_q = (rh_anc_neotet == 1) if c_anc_any == 1
 
