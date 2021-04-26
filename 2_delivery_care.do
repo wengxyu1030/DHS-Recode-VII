@@ -89,6 +89,7 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	*c_caesarean: Last birth in last 2 years delivered through caesarean                    
 	clonevar c_caesarean = m17
 	replace c_caesarean = . if m17 == 8
+	replace c_caesarean = . if m15 == .
 	
     *c_sba_eff1: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth)
   
