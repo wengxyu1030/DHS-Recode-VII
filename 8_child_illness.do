@@ -12,6 +12,10 @@
 					  
 *c_treatdiarrhea Child with diarrhea receive oral rehydration salts (ORS)
 		cap gen h13b  =. 
+		if inlist(name,"Bangladesh2017"){
+		drop h13b
+		ren s615a h13b 
+	}
 		gen c_treatdiarrhea=(h13  ==1|h13  ==2|h13b  ==1) 	if c_diarrhea == 1							/*ORS for diarrhea*/
 		replace c_treatdiarrhea=. if (h13  ==8|h13  ==9 | h13  ==.)&(h13b  ==8|h13b  ==9 | h13b  ==.) 
 				
@@ -72,17 +76,13 @@ if inlist(name,"Philippines2017","Ethiopia2016","Haiti2016") {
 		
 		
 *c_diarrheaact	Child with diarrhea seen by provider OR given any form of formal treatment
-
         gen c_diarrheaact = (c_diarrhea_pro==1 | c_diarrhea_medfor==1 | c_diarrhea_hmf==1 | c_treatdiarrhea==1) if c_diarrhea == 1
 		replace c_diarrheaact = . if (c_diarrhea_pro == . | c_diarrhea_medfor == . | c_diarrhea_hmf == . | c_treatdiarrhea == .) & c_diarrhea == 1		
 		
-		
 *c_diarrheaact_q	Child under 5 with diarrhea in last 2 weeks seen by formal healthcare provider or given any form of treatment who received ORS
-
         gen c_diarrheaact_q = c_treatdiarrhea  if c_diarrheaact == 1
 		replace c_diarrheaact_q = . if c_treatdiarrhea == .
 
-		
 *c_fever	Child with a fever in last two weeks
         gen c_fever = (h22 == 1) if !inlist(h22,.,8,9)
 		

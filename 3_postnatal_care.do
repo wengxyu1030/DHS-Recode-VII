@@ -27,7 +27,7 @@
 		
 	gen c_pnc_any = .
 		replace c_pnc_any = 0 if m62 != . | m66 != . | m70 != . | m74 != .
-		replace c_pnc_any = 1 if ((m63 <= 242 | inrange(m63,301,306) | m63 == 299 ) & m64_skill == 1) | ((m67 <= 242 | inrange(m67,301,306) | m67 == 299 ) & m68_skill == 1) | ((m71 <= 242 | inrange(m71,301,306) | m71 == 299 ) & m72_skill == 1) | ((m75 <= 242 | inrange(m75,301,306) | m75 == 299 ) & m76_skill == 1)
+		replace c_pnc_any = 1 if ((m63 <= 242 | inrange(m63,301,306) | m63 == 299 ) & m64_skill == 1 ) | ((m67 <= 242 | inrange(m67,301,306) | m67 == 299 ) & m68_skill == 1 ) |((m71 <= 242 | inrange(m71,301,306) | m71 == 299 ) & m72_skill == 1 )|((m75 <= 242 | inrange(m75,301,306) | m75 == 299 ) & m76_skill == 1 )
 		replace c_pnc_any = . if inlist(m63,399,998) | inlist(m67,399,998) | inlist(m71,399,998) | inlist(m75,399,998) | m62 == 8 | m66 == 8 | m70 == 8 | m74 == 8
 	
 	
