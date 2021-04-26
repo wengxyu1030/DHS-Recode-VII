@@ -64,6 +64,11 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	replace c_earlybreast  = 1 if inlist(m34,0,100)
 	replace c_earlybreast  = . if inlist(m34,199,999)
 	replace c_earlybreast  = . if m34 ==. & m4 != 94
+
+/*	or:
+	gen c_earlybreast  = inlist(m34,0,100) if !inlist(m34,199,299,.)  // code . if m34 or m4 missing
+	replace c_earlybreast = 0 if m4 ==94  // code 0 if no breastfeeding
+*/  
 	
     *c_skin2skin: child placed on mother's bare skin immediately after birth of births in last 2 years
 	gen c_skin2skin = (m77 == 1) if    !inlist(m77,.,3,8)               //though missing but still a place holder.(the code might change depends on how missing represented in surveys)
@@ -84,7 +89,6 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	*c_caesarean: Last birth in last 2 years delivered through caesarean                    
 	clonevar c_caesarean = m17
 	replace c_caesarean = . if m17 == 8
-	replace c_caesarean = . if m15 == .  
 	
     *c_sba_eff1: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth)
   
