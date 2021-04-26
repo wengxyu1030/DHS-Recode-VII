@@ -5,7 +5,7 @@
     gen a_inpatient_1y = . 
     gen a_inpatient_ref =.
     
-	if inlist(name,"Philippines2013"){
+	if inlist(name,"Philippines2017"){
 		replace a_inpatient_1y =0 
 		recode sh212 (8=.)
 		gen ip_30dident = sh208a*sh212 
