@@ -19,7 +19,7 @@ macro drop _all
 //NOTE FOR WINDOWS USERS : use "/" instead of "\" in your paths
 
 //global root "C:\Users\wb500886\WBG\Sven Neelsen - World Bank\MEASURE UHC DATA"
-global root "C:\Users\Guan\OneDrive\DHS\MEASURE UHC DATA"
+global root "/Users/sunyining/OneDrive/MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VII"
@@ -31,11 +31,13 @@ global OUT "${root}/STATA/DATA/SC/FINAL"
 global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
-global DO "${root}/STATA/DO/SC/DHS/Recode VII/Git-DHS-Recode-VII"
+global DO "/Users/sunyining/Dropbox/GitHub/DHS-Recode-VII"
 
 * Define the country names (in globals) in by Recode
     
 	do "${DO}/0_GLOBAL.do"
+	
+	global DHScountries_Recode_VII "Senegal2018"
 	
 // global DHScountries_Recode_VII "Jordan2017"  //run with Afghanistan2015 as test.$DHScountries_Recode_VII
 
