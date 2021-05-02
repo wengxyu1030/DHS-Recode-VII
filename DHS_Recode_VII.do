@@ -37,10 +37,15 @@ global DO "${root}/STATA/DO/SC/DHS/Recode VII/Git-DHS-Recode-VII"
     
 	do "${DO}/0_GLOBAL.do"
 	
+<<<<<<< Updated upstream
+=======
+	global DHScountries_Recode_VII "Senegal2019"
+	
+>>>>>>> Stashed changes
 // global DHScountries_Recode_VII "Jordan2017"  //run with Afghanistan2015 as test.$DHScountries_Recode_VII
 
 foreach name in $DHScountries_Recode_VII {	
-clear
+
 tempfile birth ind men hm hiv hh iso
 
 ******************************
