@@ -45,6 +45,18 @@
 	replace a_bp_treat=0 if sh224!=. | sh324!=.
 	replace a_bp_treat=1 if sh224==1 | sh324==1
 	}
+
+*a_bp_sys & a_bp_dial: 18y+ systolic & diastolic blood pressure (mmHg) in adult population 
+	gen a_bp_sys = .
+	gen a_bp_dial = .
+	
+	if inlist(name, "Bangladesh2011") {	
+		drop a_bp_sys a_bp_dial
+		recode sh246s sh255s sh264s sh246d sh255d sh264d  (994 995 996 998 999 =.) 
+		egen a_bp_sys = rowmean(sh246s sh255s sh264s)
+		egen a_bp_dial = rowmean(sh246d sh255d sh264d)
+    }	
+	
 	
 
 	
