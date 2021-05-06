@@ -58,6 +58,20 @@
     }	
 	
 	
+
+	
+*a_bp_sys & a_bp_dial: 18y+ systolic & diastolic blood pressure (mmHg) in adult population 
+	gen a_bp_sys = .
+	gen a_bp_dial = .
+	
+	if inlist(name, "Bangladesh2011") {	
+		drop a_bp_sys a_bp_dial
+		recode sh246s sh255s sh264s sh246d sh255d sh264d  (994 995 996 998 999 =.) 
+		egen a_bp_sys = rowmean(sh246s sh255s sh264s)
+		egen a_bp_dial = rowmean(sh246d sh255d sh264d)
+    }	
+	
+	
 *a_bp_sys 18y+ systolic blood pressure (mmHg) in adult population 
   	if inlist(name,"Bangladesh2017") {
 		recode sb315a sb323a sb332a (994 995 996 997 998 999 =.)
@@ -77,7 +91,6 @@
 	egen a_bp_dial = rowmean(sh221b sh228b sh232b sh321b sh328b sh332b)
 	}
 
-	
 
 	
 *a_hi_bp140_or_on_med	18y+ with high blood pressure or on treatment for high blood pressure	
