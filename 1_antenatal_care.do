@@ -134,7 +134,7 @@
 	egen anc_blood = rowtotal(m42c m42d m42e) if m2n == 0
 	
 	gen c_anc_eff = (c_anc == 1 & anc_skill>0 & anc_blood == 3) 
-	replace c_anc_eff = . if c_anc ==. |  anc_skill==. | anc_blood == .|((inlist(m42c,.,8)|inlist(m42d,.,8)|inlist(m42e,.,8)) & m2n!=1 )
+	replace c_anc_eff = . if c_anc ==. |  anc_skill==. |((inlist(m42c,.,8)|inlist(m42d,.,8)|inlist(m42e,.,8)) & m2n!=1 )
 	
 	*c_anc_eff_q: Effective ANC (4+ antenatal care visits, any skilled provider, blood pressure, blood and urine samples) among ANC users of births in last 2 years
 
@@ -142,7 +142,7 @@
 	
 	*c_anc_eff2: Effective ANC (4+ antenatal care visits, any skilled provider, blood pressure, blood and urine samples, tetanus vaccination) of births in last 2 years
 	gen c_anc_eff2 = (c_anc == 1 & anc_skill>0 & anc_blood == 3 & rh_anc_neotet == 1) 
-	replace c_anc_eff2 = . if c_anc == . | anc_skill == . |  rh_anc_neotet == . | anc_blood == .|((inlist(m42c,.,8)|inlist(m42d,.,8)|inlist(m42e,.,8)) & m2n!=1 )
+	replace c_anc_eff2 = . if c_anc == . | anc_skill == . |  rh_anc_neotet == . |((inlist(m42c,.,8)|inlist(m42d,.,8)|inlist(m42e,.,8)) & m2n!=1 )
 	
 	*c_anc_eff2_q: Effective ANC (4+ antenatal care visits, any skilled provider, blood pressure, blood and urine samples, tetanus vaccination) among ANC users of births in last 2 years
 	
@@ -150,7 +150,7 @@
 	
 	*c_anc_eff3: Effective ANC (4+ antenatal care visits, any skilled provider, blood pressure, blood and urine samples, tetanus vaccination, start in first trimester) of births in last 2 years 
 	gen c_anc_eff3 = (c_anc == 1 & anc_skill>0 & anc_blood == 3 & rh_anc_neotet == 1 & inrange(m13,0,3)) 
-	replace c_anc_eff3 = . if c_anc == . | anc_skill == . | rh_anc_neotet == . | m13 == 98 | anc_blood == .|((inlist(m13,.,98)|inlist(m42c,.,8,9)|inlist(m42d,.,8,9)|inlist(m42e,.,8,9)) & m2n!=1 )
+	replace c_anc_eff3 = . if c_anc == . | anc_skill == . | rh_anc_neotet == . | m13 == 98 |((inlist(m13,.,98)|inlist(m42c,.,8,9)|inlist(m42d,.,8,9)|inlist(m42e,.,8,9)) & m2n!=1 )
 	 
 	*c_anc_eff3_q: Effective ANC (4+ antenatal care visits, any skilled provider, blood pressure, blood and urine samples, tetanus vaccination, start in first trimester) among ANC users of births in last 2 years
 

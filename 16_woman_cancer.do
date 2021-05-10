@@ -17,28 +17,21 @@ if _rc==0 {
 	replace w_papsmear=. if s714dd==9 | s714ee==9
 }
 
-capture confirm variable s1110_f s1110_g 
-if _rc==0 {
+if inlist(name,"Jordan2017") {
 	replace w_papsmear=0 if s1110_f!=.
 	replace w_papsmear=1 if s1110_g==1
 	replace w_papsmear=. if s1110_f==8 | s1110_g==8
 	replace w_papsmear=. if v012 < 20
+	
+	replace w_mammogram = (s1110_c == 1) 
+	replace w_mammogram=. if s1110_c == . | s1110_c == 8
+	replace w_mammogram=. if v012 < 20	
 }
 
 capture confirm variable s1017 s1020 
 if _rc==0 {
     replace w_mammogram=. if s1017==. | s1017==9 | s1020==9 
 }
-
-capture confirm variable s1110_c
-if _rc==0 {
-    
-	replace w_mammogram = (s1110_c == 1) 
-	replace w_mammogram=. if s1110_c == . | s1110_c == 8
-	replace w_papsmear=. if v012 < 20
-}
-
-
 
 if inlist(name,"SouthAfrica2016") {
 	tempfile tpf1
