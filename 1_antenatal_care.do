@@ -31,8 +31,8 @@
 	replace `var' = . if !inlist(`var',0,1)
 
 	 }
-	if inlist(name, "Senegal2017") {
-		replace m2h = .
+	if inlist(name, "Senegal2018","Senegal2019","Senegal2017") {
+		replace m2h = . // exclude "auxiliary midwife (matrone)"
 	}
 	if inlist(name, "Benin2017") {
 		replace m2h = . // exclude "untrained birth attendant"
