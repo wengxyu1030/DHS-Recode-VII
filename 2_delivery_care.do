@@ -23,8 +23,8 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	replace `var' = . if !inlist(`var',0,1)
 	
 	 }
-	if inlist(name, "Senegal2017") {
-		replace m3h = .
+	if inlist(name, "Senegal2018", "Senegal2019", "Senegal2017") {
+		replace m3h = . // exclude auxiliary midwife (matrone)
 	}
 	if inlist(name,"Nepal2016") {
 		replace m3d = .  // Nepal doesn't include health assistant in the report.
