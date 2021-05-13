@@ -23,6 +23,12 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	replace `var' = . if !inlist(`var',0,1)
 	
 	 }
+	 if inlist(name, "Senegal2019") {
+		replace m3h = .
+	}
+	if inlist(name, "Senegal2018") {
+		replace m3h = .
+	}
 	if inlist(name, "Senegal2017") {
 		replace m3h = .
 	}

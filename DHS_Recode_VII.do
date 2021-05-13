@@ -36,8 +36,7 @@ global DO "/Users/sunyining/Dropbox/GitHub/DHS-Recode-VII"
 * Define the country names (in globals) in by Recode
     
 	do "${DO}/0_GLOBAL.do"
-	
-	global DHScountries_Recode_VII "Senegal2019"
+
 
 // global DHScountries_Recode_VII "Jordan2017"  //run with Afghanistan2015 as test.$DHScountries_Recode_VII
 
