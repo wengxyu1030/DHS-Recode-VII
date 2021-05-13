@@ -48,25 +48,8 @@
 	}
 
 *a_bp_sys & a_bp_dial: 18y+ systolic & diastolic blood pressure (mmHg) in adult population 
-	gen a_bp_sys = .
-	gen a_bp_dial = .
-	
-	if inlist(name, "Bangladesh2011") {	
-		drop a_bp_sys a_bp_dial
-		recode sh246s sh255s sh264s sh246d sh255d sh264d  (994 995 996 998 999 =.) 
-		egen a_bp_sys = rowmean(sh246s sh255s sh264s)
-		egen a_bp_dial = rowmean(sh246d sh255d sh264d)
-    }	
-	
-	
 
-	
-*a_bp_sys & a_bp_dial: 18y+ systolic & diastolic blood pressure (mmHg) in adult population 
-	gen a_bp_sys = .
-	gen a_bp_dial = .
-	
 	if inlist(name, "Bangladesh2011") {	
-		drop a_bp_sys a_bp_dial
 		recode sh246s sh255s sh264s sh246d sh255d sh264d  (994 995 996 998 999 =.) 
 		egen a_bp_sys = rowmean(sh246s sh255s sh264s)
 		egen a_bp_dial = rowmean(sh246d sh255d sh264d)
@@ -78,8 +61,9 @@
 		recode sb315a sb323a sb332a (994 995 996 997 998 999 =.)
 		egen a_bp_sys = rowmean(sb315a sb323a sb332a)
 	}
+	
 	if inlist(name,"SouthAfrica2016") {
-	egen a_bp_sys = rowmean(sh221a sh228a sh232a sh321a sh328a sh332a)
+	    egen a_bp_sys = rowmean(sh221a sh228a sh232a sh321a sh328a sh332a)
 	}
 
 	
@@ -88,11 +72,18 @@
 		recode sb315b sb323b sb332b (994 995 996 997 998 999 =.)		
 		egen a_bp_dial = rowmean(sb315b sb323b sb332b)
 	}
+	
 	if inlist(name,"SouthAfrica2016") {
-	egen a_bp_dial = rowmean(sh221b sh228b sh232b sh321b sh328b sh332b)
+	    egen a_bp_dial = rowmean(sh221b sh228b sh232b sh321b sh328b sh332b)
 	}
-
-
+	
+	foreach var in a_bp_sys a_bp_dial {
+	    capture confirm new variable `var'
+	    if _rc == 0 {
+	    gen `var' = .
+	    }
+	}
+	
 	
 *a_hi_bp140_or_on_med	18y+ with high blood pressure or on treatment for high blood pressure	
 	gen a_hi_bp140=.

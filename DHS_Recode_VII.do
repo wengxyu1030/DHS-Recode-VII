@@ -22,9 +22,9 @@ macro drop _all
 
 * Define root depend on the stata user. 
 if "`c(username)'" == "sunyining" local pc = 0
-if "`c(username)'" != "sunyining" local pc = 1
+if "`c(username)'" == "XWeng"     local pc = 1
 if `pc' == 0 global root "/Users/sunyining/OneDrive/MEASURE UHC DATA"
-if `pc' != 0 global root "C:/Users/wb500886/WBG/Sven Neelsen - World Bank/MEASURE UHC DATA"
+if `pc' == 1 global root "C:/Users/XWeng/WBG/Sven Neelsen - World Bank/MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VII"

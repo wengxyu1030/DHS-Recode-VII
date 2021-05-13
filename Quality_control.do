@@ -207,6 +207,9 @@ egen value_my`var' = wtmean(`var'),weight(ant_sampleweight)
 
 keep surveyid value*
 keep if _n == 1
+
+//here to generate HEFPI indicators 
+
 reshape long value_my,i(surveyid)j(varname_my) string
 replace value_my = value_my*100
 
@@ -224,6 +227,7 @@ br varname_my value* flag_hefpi if flag_hefpi == 1
 
 keep surveyid varname_my value* flag_hefpi
 save `hefpi',replace
+
 
 /////////////////////////////////
 /////Crosscheck results all/////
