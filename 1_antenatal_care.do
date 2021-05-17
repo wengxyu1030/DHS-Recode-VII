@@ -32,16 +32,8 @@
 
 	 }
 	
-	if inlist(name, "Senegal2018") {
+	if inlist(name, "Senegal2017", "Senegal2018", "Senegal2019") {
 		replace m2h=.
-	}
-	
-	if inlist(name, "Senegal2019") {
-		replace m2h=.
-	}
-	 
-	if inlist(name, "Senegal2017") {
-		replace m2h = .
 	}
 	if inlist(name, "Benin2017") {
 		replace m2h = . // exclude "untrained birth attendant"
