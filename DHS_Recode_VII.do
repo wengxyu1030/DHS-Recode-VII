@@ -1,4 +1,3 @@
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 *** DHS MONITORING
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -17,14 +16,10 @@ macro drop _all
 *** Define main root paths ***
 ******************************
 
-
 //NOTE FOR WINDOWS USERS : use "/" instead of "\" in your paths
 
-* Define root depend on the stata user. 
-if "`c(username)'" == "sunyining" local pc = 0
-if "`c(username)'" == "XWeng"     local pc = 1
-if `pc' == 0 global root "/Users/sunyining/OneDrive/MEASURE UHC DATA"
-if `pc' == 1 global root "C:/Users/XWeng/WBG/Sven Neelsen - World Bank/MEASURE UHC DATA"
+//global root "C:\Users\wb500886\WBG\Sven Neelsen - World Bank\MEASURE UHC DATA"
+global root "/Users/sunyining/OneDrive/MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VII"
@@ -36,12 +31,15 @@ global OUT "${root}/STATA/DATA/SC/FINAL"
 global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
-if `pc' == 0 global DO "/Users/sunyining/Dropbox/GitHub/DHS-Recode-VII"
-if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/Recode VII/DHS-Recode-VII"
+global DO "/Users/sunyining/Dropbox/GitHub/DHS-Recode-VII"
 
 * Define the country names (in globals) in by Recode
-global DHScountries_Recode_VII "Senegal2019"	
-	
+    
+	do "${DO}/0_GLOBAL.do"
+
+
+// global DHScountries_Recode_VII "Jordan2017"  //run with Afghanistan2015 as test.$DHScountries_Recode_VII
+
 foreach name in $DHScountries_Recode_VII {	
 clear 
 tempfile birth ind men hm hiv hh iso
@@ -267,7 +265,6 @@ use `hm',clear
 	
 save "${OUT}/DHS-`name'.dta", replace  
 }
-
 
 
 

@@ -8,7 +8,7 @@
 	
 	capture confirm variable ml0
 	if _rc == 0 {
-	replace c_ITN=(ml0==1 | ml0==2) 								
+	replace c_ITN=(ml0==1 | ml0 ==2) 								
 	replace c_ITN=. if ml0==.                  //Children under 5 in country where malaria is endemic (only in countries with endemic)
 	}
 
