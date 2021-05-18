@@ -14,11 +14,7 @@
 			replace c_measles = 1 if (h9 ==1 | h9 ==2 | h9 ==3)
 		}	
 		
-		if inlist(name, "Senegal2019") {
-			replace c_measles = 1 if (h9a == 1 & b19 >=15 & b19 <=23)
-		}
-		
-		if inlist(name, "Senegal2018") {
+		if inlist(name, "Senegal2019","Senegal2018") {
 			replace c_measles = 1 if (h9a == 1 & b19 >=15 & b19 <=23)
 		}
 		
