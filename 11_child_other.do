@@ -19,8 +19,3 @@
 
 
 
-*******compare with statacompiler
-preserve
-keep if b8 <5
-restore
-
