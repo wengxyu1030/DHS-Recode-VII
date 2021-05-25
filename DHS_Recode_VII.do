@@ -40,7 +40,7 @@ if `pc' == 0 global DO "/Users/sunyining/Dropbox/GitHub/DHS-Recode-VII"
 if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/Recode VII/DHS-Recode-VII"
 
 * Define the country names (in globals) in by Recode
-global DHScountries_Recode_VII "Afghanistan2015"	
+global DHScountries_Recode_VII "Senegal2019"	
 	
 foreach name in $DHScountries_Recode_VII {	
 clear 
