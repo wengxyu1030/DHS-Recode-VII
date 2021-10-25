@@ -21,10 +21,8 @@ macro drop _all
 //NOTE FOR WINDOWS USERS : use "/" instead of "\" in your paths
 
 * Define root depend on the stata user. 
-if "`c(username)'" == "sunyining" local pc = 0
-if "`c(username)'" == "XWeng"     local pc = 1
-if `pc' == 0 global root "/Users/sunyining/OneDrive/MEASURE UHC DATA"
-if `pc' == 1 global root "C:/Users/XWeng/WBG/Sven Neelsen - World Bank/MEASURE UHC DATA"
+if "`c(username)'" == "xweng"     local pc = 1
+if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VII"
@@ -36,8 +34,11 @@ global OUT "${root}/STATA/DATA/SC/FINAL"
 global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
-if `pc' == 0 global DO "/Users/sunyining/Dropbox/GitHub/DHS-Recode-VII"
-if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/Recode VII/DHS-Recode-VII"
+if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
+
+* Define the country names (in globals) in by Recode
+do "${DO}/0_GLOBAL.do"
+
 	
 foreach name in $DHScountries_Recode_VII {	
 clear 
