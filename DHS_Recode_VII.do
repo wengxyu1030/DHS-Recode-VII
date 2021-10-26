@@ -39,8 +39,17 @@ if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
 
+/*
+Issue:
+Afghanistan2015 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Afghanistan2015/DHS-Afghanistan2015hm.dta not Stata format
+Haiti2016 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Haiti2016/DHS-Haiti2016ind.dta not found
+Indonesia2017 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Indonesia2017/DHS-Indonesia2017hm.dta not Stata format
+Mali2018 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Mali2018/DHS-Mali2018ind.dta not Stata format
+
+*/
+
 	
-foreach name in $DHScountries_Recode_VII {	
+foreach name in  Myanmar2015        Nepal2016          Nigeria2018        PapuaNewGuinea2017 Philippines2017    Senegal2017        SouthAfrica2016    Tajikistan2017     Tanzania2015       Timor-Leste2016          Uganda2016         Zambia2018         Zimbabwe2015  {	
 clear 
 tempfile birth ind men hm hiv hh iso
 
