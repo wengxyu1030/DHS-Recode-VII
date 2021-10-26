@@ -45,11 +45,14 @@ Afghanistan2015 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Rec
 Haiti2016 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Haiti2016/DHS-Haiti2016ind.dta not found
 Indonesia2017 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Indonesia2017/DHS-Indonesia2017hm.dta not Stata format
 Mali2018 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Mali2018/DHS-Mali2018ind.dta not Stata format
+Philippines2017 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Philippines2017/DHS-Philippines2017ind.dta not found
+Tajikistan2017 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode    VII/DHS-Tajikistan2017/DHS-Tajikistan2017ind.dta not found
+Timor-Leste2016 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode    VII/DHS-Timor-Leste2016/DHS-Timor-Leste2016birth.dta not found
 
 */
 
 	
-foreach name in  Myanmar2015        Nepal2016          Nigeria2018        PapuaNewGuinea2017 Philippines2017    Senegal2017        SouthAfrica2016    Tajikistan2017     Tanzania2015       Timor-Leste2016          Uganda2016         Zambia2018         Zimbabwe2015  {	
+foreach name in  $DHScountries_Recode_VII  {	
 clear 
 tempfile birth ind men hm hiv hh iso
 
