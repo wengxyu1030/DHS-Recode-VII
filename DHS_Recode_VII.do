@@ -22,35 +22,53 @@ macro drop _all
 
 * Define root depend on the stata user. 
 if "`c(username)'" == "xweng"     local pc = 1
+	if "`c(username)'" == "robinwang"     local pc = 4
+
 if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
+	if `pc' == 4 global root "/Users/robinwang/Documents/MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VII"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
+	if `pc' == 4 global OUT "${root}/STATA/DATA/SC/FINAL"
 
 * Define path for INTERMEDIATE
 global INTER "${root}/STATA/DATA/SC/INTER"
+	if `pc' == 4 global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
 if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
+	if `pc' == 4 global DO "/Users/robinwang/Documents/MEASURE UHC DATA/DHS-Recode-VII"
 
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
 
 /*
-Issue:
+DW Issue:
 Afghanistan2015 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Afghanistan2015/DHS-Afghanistan2015hm.dta not Stata format
+-  AW reports issue rerunning, DW team resolves.Successful, no changes.
+
 Haiti2016 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Haiti2016/DHS-Haiti2016ind.dta not found
+- Updated raw data
+
 Indonesia2017 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Indonesia2017/DHS-Indonesia2017hm.dta not Stata format
+-  AW reports issue rerunning, DW team resolves. Successful, no changes
+
 Mali2018 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Mali2018/DHS-Mali2018ind.dta not Stata format
+-  AW reports issue rerunning, DW team resolves. Successful, no changes
+
 Philippines2017 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Philippines2017/DHS-Philippines2017ind.dta not found
+- Updated raw data
+
 Tajikistan2017 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode    VII/DHS-Tajikistan2017/DHS-Tajikistan2017ind.dta not found
+- Updated raw data
+
 Timor-Leste2016 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode    VII/DHS-Timor-Leste2016/DHS-Timor-Leste2016birth.dta not found
+- Updated raw data, note TimorLeste, without dash sign '-'
 
 */
-
 	
 foreach name in  $DHScountries_Recode_VII  {	
 clear 
