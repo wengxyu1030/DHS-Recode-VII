@@ -25,6 +25,12 @@
 *mor_afl				Child age at death imputation flag
       gen mor_afl = b13
 
+*hm_birthorder: Birth order
+	gen hm_birthorder = bord
+
+*c_magebrt: Mother's age at birth [DW - NOV2021]
+	gen c_magebrt = v012 - round(hw1/12)
+		  
 *******compare with statacompiler
 preserve
 keep if inrange(hm_age_mon,0,59)

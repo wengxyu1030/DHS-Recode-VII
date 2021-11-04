@@ -44,7 +44,7 @@ if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
 
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
-
+global DHScountries_Recode_VII "SierraLeone2019"
 /*
 DW Issue:
 Afghanistan2015 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Afghanistan2015/DHS-Afghanistan2015hm.dta not Stata format
@@ -69,7 +69,7 @@ Timor-Leste2016 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Rec
 - Updated raw data, note TimorLeste, without dash sign '-'
 
 */
-	
+
 foreach name in  $DHScountries_Recode_VII  {	
 clear 
 tempfile birth ind men hm hiv hh iso
@@ -91,7 +91,7 @@ use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear
 
 *housekeeping for birthdata
    //generate the demographics for child who are dead or no longer living in the hh. 
-   
+
     *hm_live Alive (1/0)
     recode b5 (1=0)(0=1) , ge(hm_live)   
 	label var hm_live "died" 
@@ -128,7 +128,7 @@ gen name = "`name'"
 
     *hm_dob	date of birth (cmc)
     gen hm_dob = v011  
-	
+
 	
 keep v001 v002 v003 w_* hm_*
 rename (v001 v002 v003) (hv001 hv002 hvidx)
@@ -153,12 +153,13 @@ save `men'
 ************************************
 use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
 gen name = "`name'"
-
+pause 
     do "${DO}/9_child_anthropometrics"  
 	do "${DO}/13_adult"
     do "${DO}/14_demographics"
-	
-keep hv001 hv002 hvidx hc70 hc71 ///
+
+* DW Nov 2021 : add hc72
+keep hv001 hv002 hvidx hc70 hc71 hc72 ///
 c_* ant_* a_* hm_* ln
 save `hm'
 
@@ -276,7 +277,8 @@ use `hm',clear
     }
 	
 	***for variables generated from 9_child_anthropometrics
-	foreach var of var c_underweight c_stunted	hc70 hc71 ant_sampleweight{
+	* DW Nov 2021 : add hc72
+	foreach var of var c_underweight c_stunted	hc70 hc71 hc72 ant_sampleweight{
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
 	
@@ -290,6 +292,11 @@ use `hm',clear
 	replace `var'=. if hm_age_yrs<18
 	}
 *** Label variables
+	* DW Nov 2021
+	rename hc71 c_wfa
+	rename hc70 c_hfa
+	rename hc72 c_wfh
+	
     drop bidx surveyid
     do "${DO}/Label_var"
 	
