@@ -44,7 +44,7 @@ if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
 
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
-global DHScountries_Recode_VII "SierraLeone2019"
+global DHScountries_Recode_VII "Senegal2018"
 /*
 DW Issue:
 Afghanistan2015 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Afghanistan2015/DHS-Afghanistan2015hm.dta not Stata format
@@ -153,7 +153,6 @@ save `men'
 ************************************
 use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
 gen name = "`name'"
-pause 
     do "${DO}/9_child_anthropometrics"  
 	do "${DO}/13_adult"
     do "${DO}/14_demographics"
@@ -185,9 +184,20 @@ save `hm',replace
 use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
     rename (hv001 hv002 hvidx) (v001 v002 v003)
 
+	tempfile pre_hh_birth
+		save `pre_hh_birth', replace
+		use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", replace
+		
+		merge m:1 v001 v002 v003 using `pre_hh_birth'
+		*drop if _merge != 3 /*as the base is now birth.dta, keep observations from hm per original logic*/
+		rename (v001 v002 v003) (hv001 hv002 hvidx) 
+		drop _merge		
+
+	/*ORIGINAL 
     merge 1:m v001 v002 v003 using "${SOURCE}/DHS-`name'/DHS-`name'birth.dta"
     rename (v001 v002 v003) (hv001 hv002 hvidx) 
     drop _merge
+	*/
 
     do "${DO}/15_household"
 
