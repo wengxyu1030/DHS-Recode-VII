@@ -44,7 +44,9 @@ if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
 
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
-global DHScountries_Recode_VII "Senegal2018"
+
+global DHScountries_Recode_VII "SierraLeone2019"
+
 /*
 DW Issue:
 Afghanistan2015 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Afghanistan2015/DHS-Afghanistan2015hm.dta not Stata format
@@ -255,7 +257,7 @@ use `hm',clear
 	do "${DO}/Quality_control_result"
 	save "${OUT}/quality_control",replace 
     restore
-
+	
 *** Specify sample size to HEFPI
 	
     ***for variables generated from 1_antenatal_care 2_delivery_care 3_postnatal_care
@@ -281,17 +283,15 @@ use `hm',clear
 	
 	***for variables generated from 8_child_illness	
 	foreach var of var c_ari c_ari2	c_diarrhea 	c_diarrhea_hmf	c_diarrhea_medfor	c_diarrhea_mof	c_diarrhea_pro	c_diarrheaact ///
-	c_diarrheaact_q	c_fever	c_fevertreat	c_illness c_illness2 c_illtreat	c_illtreat2 c_sevdiarrhea	c_sevdiarrheatreat ///
+	c_diarrheaact_q	c_fever	c_fevertreat c_illness c_illness2 c_illtreat	c_illtreat2 c_sevdiarrhea	c_sevdiarrheatreat ///
 	c_sevdiarrheatreat_q	c_treatARI	c_treatARI2 c_treatdiarrhea	c_diarrhea_med {
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
-	
 	***for variables generated from 9_child_anthropometrics
 	* DW Nov 2021 : add hc72
-	foreach var of var c_underweight c_stunted	hc70 hc71 hc72 ant_sampleweight{
+	foreach var of var c_underweight c_stunted c_wasted c_stunted_sev c_underweight_sev c_wasted_sev c_stu_was c_stu_was_sev hc70 hc71 hc72 ant_sampleweight{
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
-	
 	***for hive indicators from 12_hiv
     foreach var of var a_hiv*{
     replace `var'=. if hm_age_yrs<15 | (hm_age_yrs>49 & hm_age_yrs!=.)
@@ -306,11 +306,13 @@ use `hm',clear
 	rename hc71 c_wfa
 	rename hc70 c_hfa
 	rename hc72 c_wfh
-	
+
     drop bidx surveyid
     do "${DO}/Label_var"
+
 	
 save "${OUT}/DHS-`name'.dta", replace  
+
 }
 
 
