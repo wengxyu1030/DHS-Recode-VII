@@ -57,19 +57,18 @@ preserve
 	c_sevdiarrheatreat_q	c_treatdiarrhea	c_diarrhea_med {
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
-	
+		
 ***for variables generated from 9_child_anthropometrics
-	foreach var of var c_underweight c_stunted	hc70 hc71 ant_sampleweight{
+	foreach var of var c_underweight c_stunted c_wasted c_stunted_sev c_underweight_sev c_wasted_sev c_stu_was c_stu_was_sev hc70 hc71 hc72 ant_sampleweight{
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
-
 ***keep the relevant variables
 
 keep surveyid hvidx hv001 hv002 mor_ali ant_sampleweight w_sampleweight hh_sampleweight ///
 c_anc c_anc_bp_q	c_anc_bs_q	c_anc_ir	c_anc_ski c_anc_tet	c_anc_ur_q c_anc_ear	c_caesarean	c_earlybreast	c_sba  ///
 w_CPR	w_unmet_fp	w_need_fp w_metany_fp	w_metmod_fp	w_bmi_1549	w_obese_1549	w_overweight_1549 ///
 c_bcg	c_dpt1	c_dpt2	c_dpt3	c_fullimm	c_measles	c_polio1	c_polio2	c_polio3		///
-c_ari c_diarrhea 	c_diarrhea_hmf	c_diarrhea_mof 	c_fever	c_treatdiarrhea c_underweight	c_stunted	c_ITN
+c_ari c_diarrhea 	c_diarrhea_hmf	c_diarrhea_mof 	c_fever	c_treatdiarrhea c_underweight c_stunted	c_wasted c_stunted_sev c_underweight_sev c_wasted_sev c_stu_was c_stu_was_sev c_ITN
 
 
 *********************************
@@ -97,7 +96,7 @@ egen value_my`var' = wtmean(`var'), weight(hh_sampleweight)
 }
 
 *indicators using ant_sampleweight
-foreach var of var c_underweight c_stunted{    
+foreach var of var c_underweight c_stunted c_wasted c_underweight_sev c_stunted_sev c_wasted_sev {    
 egen value_my`var' = wtmean(`var'), weight(ant_sampleweight)
 }
 
@@ -151,7 +150,7 @@ The bidx is nt used in the hefpi indicator caluclation
 	
 
 ***for variables generated from 4_sexual_health 5_woman_anthropometrics
-	foreach var of var w_CPR w_unmet_fp	w_need_fp w_metany_fp	w_metmod_fp w_metany_fp_q  w_bmi_1549 w_height_1549 w_obese_1549 w_overweight_1549 {
+	foreach var of var w_CPR w_unmet_fp	w_need_fp w_metany_fp w_metmod_fp w_metany_fp_q  w_bmi_1549 w_height_1549 w_obese_1549 w_overweight_1549 {
 	replace `var'=. if hm_age_yrs<15 | (hm_age_yrs>49 & hm_age_yrs!=.)
 	}
 
@@ -170,7 +169,7 @@ The bidx is nt used in the hefpi indicator caluclation
     }
 	
 ***for variables generated from 9_child_anthropometrics
-	foreach var of var c_underweight c_stunted	hc70 hc71 ant_sampleweight{
+	foreach var of var c_underweight c_stunted c_wasted c_underweight_sev c_wasted_sev c_stunted_sev c_stu_was c_stu_was_sev hc70 hc71 hc72 ant_sampleweight{
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
 
@@ -201,7 +200,7 @@ egen value_my`var' = wtmean(`var'),weight(hh_sampleweight)
 }
 
 *indicator caculate for child_anthropometrics (using ant_sampleweight）
-foreach var of var c_underweight c_stunted {
+foreach var of var c_underweight c_stunted c_wasted c_underweight_sev c_stunted_sev c_stu_was c_stu_was_sev {
 egen value_my`var' = wtmean(`var'),weight(ant_sampleweight)
 }
 
