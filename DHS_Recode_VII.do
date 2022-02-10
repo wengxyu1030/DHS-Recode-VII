@@ -45,7 +45,7 @@ if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
 
-global DHScountries_Recode_VII "SierraLeone2019"
+global DHScountries_Recode_VII "Zimbabwe2015"
 
 /*
 DW Issue:
@@ -111,6 +111,12 @@ use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear
 	
     *hm_doi	date of interview (cmc)
     gen hm_doi = v008
+	
+	* FEB 2022 DW
+	* w_married: 1 if woman and mother currently married or living in union, 0 otherwise (v501 in DHS and ma1 in MICS woman dataset) – i.e. have it for both woman and child level observations ; coded no response as .
+	gen w_married = .
+		replace w_married = 1 if inlist(v501,1,2)
+		replace w_married = 0 if !inlist(v501,1,2) & v501 != .
 	
 rename (v001 v002 b16) (hv001 hv002 hvidx)
 keep hv001 hv002 hvidx bidx c_* mor_* w_* hm_*
