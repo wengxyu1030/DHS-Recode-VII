@@ -10,6 +10,13 @@
 	if _rc == 0 {
 	replace c_ITN=(ml0==1 | ml0==2) 								
 	replace c_ITN=. if ml0==.                  //Children under 5 in country where malaria is endemic (only in countries with endemic)
+	
+	*m10 variable in Liberia2019birth label "wanted pregnancy when became pregnant",change the variable into a dummy variable as below
+	
+	if inlist (name,"Liberia2019")
+	   gen c_ITN = .
+	   replace c_ITN=1 if v460==1|v460==2
+	   replace c_ITN=0 if v460==0|v460==3
 	}
 
 *w_mateduc	Mother's highest educational level ever attended (1 = none, 2 = primary, 3 = lower sec or higher)
