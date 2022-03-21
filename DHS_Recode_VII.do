@@ -29,6 +29,7 @@ if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VII"
+	if `pc' == 4 global SOURCE "/Volumes/Seagate Portable Drive 1/HEFPI DATA/RAW DATA/DHS/DHS VII"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
