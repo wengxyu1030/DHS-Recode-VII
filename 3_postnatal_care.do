@@ -7,8 +7,7 @@
     *c_pnc_skill: m52 m64 m68 m72 m76 by var label text
 	*c_pnc_any : mother OR child receive PNC in first six weeks by skilled health worker	
 	*c_pnc_eff: mother AND child in first 24h by skilled health worker
-	
-	
+
 	if ~inlist(name,"Afghanistan2015","Colombia2015","Myanmar2015","Nepal2016") {
 		replace m62 = 0 if inlist(m15,11,12,96) //if delivered at home,etc. question m62-m64 will be skipped and mother-pnc data is collected in m66-68. 
 		replace m74 = 0 if inlist(m15,11,12,96) //if delivered at home,etc. question m74-m76 will be skipped and child-pnc data is collected in m70-. 
