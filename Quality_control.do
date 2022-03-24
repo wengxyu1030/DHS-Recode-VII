@@ -105,7 +105,7 @@ keep if _n == 1
 reshape long value_my,i(surveyid ispreferred)j(varname_my) string
 replace value_my = value_my*100 if varname_my != "w_bmi_1549"
 
-merge 1:1 surveyid varname_my ispreferred using "${SOURCE}/external/DHS.dta"
+merge 1:1 surveyid varname_my ispreferred using "${SOURCE}DHS-Liberia2019\external\DHS.dta"
 keep if _merge == 3  //for _merge == 1, missing data to generate the indicator.
 drop _merge
 
@@ -212,7 +212,7 @@ keep if _n == 1
 reshape long value_my,i(surveyid)j(varname_my) string
 replace value_my = value_my*100
 
-merge 1:1 surveyid varname_my using "${SOURCE}/external/HEFPI_DHS"
+merge 1:1 surveyid varname_my using "${SOURCE}DHS-Liberia2019\external\HEFPI_DHS"
 keep if _merge== 3
 drop _merge
 

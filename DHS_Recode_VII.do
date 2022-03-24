@@ -23,29 +23,33 @@ macro drop _all
 * Define root depend on the stata user. 
 if "`c(username)'" == "xweng"     local pc = 1
 	if "`c(username)'" == "robinwang"     local pc = 4
+	if "`c(username)'" == "Stellaaa"     local pc = 10086
 
 if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
 	if `pc' == 4 global root "/Users/robinwang/Documents/MEASURE UHC DATA"
-
+	if `pc' == 10086 global root "D:\GitHub\DW HEFPI"
+	
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VII"
-
+if `pc' == 10086 global SOURCE "D:\dw\"
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
 	if `pc' == 4 global OUT "${root}/STATA/DATA/SC/FINAL"
+	if `pc' == 10086 global OUT "${root}\output"
 
 * Define path for INTERMEDIATE
 global INTER "${root}/STATA/DATA/SC/INTER"
 	if `pc' == 4 global INTER "${root}/STATA/DATA/SC/INTER"
-
+    if `pc' == 10086 global INTER "${root}\inter"
 * Define path for do-files
 if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
 	if `pc' == 4 global DO "/Users/robinwang/Documents/MEASURE UHC DATA/DHS-Recode-VII"
+    if `pc' == 10086 global DO "${root}\do"
 
-* Define the country names (in globals) in by Recode
+* Define the country names (in globals) in by Recode 
 do "${DO}/0_GLOBAL.do"
 
-global DHScountries_Recode_VII "Zimbabwe2015"
+global DHScountries_Recode_VII "Liberia2019"
 
 /*
 DW Issue:
