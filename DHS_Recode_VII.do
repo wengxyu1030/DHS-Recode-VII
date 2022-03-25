@@ -221,7 +221,7 @@ save `hh'
 ************************************
 
 ***match with external iso data
-use "${SOURCE}/external/iso", clear 
+use "${SOURCE}DHS-Liberia2019\external\iso", clear 
 keep country iso2c iso3c	
 replace country = "Tanzania"  if country == "Tanzania, United Republic of"
 replace country = "PapuaNewGuinea" if country == "Papua New Guinea"
