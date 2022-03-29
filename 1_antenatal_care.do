@@ -175,11 +175,25 @@
 
 	}
 
-
 	*c_anc_public : Received antenatal care in public facilities	 
 	gen c_anc_public = .
 	replace c_anc_public = 0 if !mi(m15)
+
+	capture confirm variable m57a
+	if !_rc {
+		if !inlist(name,"Benin2017"){
+			foreach var of varlist m57e-m57l {
+				replace c_anc_public = 1 if `var'==1
+			}
+		}
+		else {
+			foreach var of varlist m57e-m57m {
+				replace c_anc_public = 1 if `var'==1
+			}		
+		}
+	}	
 	
+/*
 	capture confirm variable m57a
 	if !_rc {
 		foreach var of varlist m57a-m57x {
@@ -188,7 +202,7 @@
 			 }
 			
 	}
-
+*/
 	
 	
 	*w_sampleweight.
