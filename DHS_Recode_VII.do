@@ -29,6 +29,7 @@ if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VII"
+	if `pc' == 4 global SOURCE "/Volumes/Seagate Portable Drive 1/HEFPI DATA/RAW DATA/DHS/DHS VII"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
@@ -45,32 +46,7 @@ if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
 
-global DHScountries_Recode_VII "Zimbabwe2015"
-
-/*
-DW Issue:
-Afghanistan2015 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Afghanistan2015/DHS-Afghanistan2015hm.dta not Stata format
--  AW reports issue rerunning, DW team resolves.Successful, no changes.
-
-Haiti2016 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Haiti2016/DHS-Haiti2016ind.dta not found
-- Updated raw data
-
-Indonesia2017 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Indonesia2017/DHS-Indonesia2017hm.dta not Stata format
--  AW reports issue rerunning, DW team resolves. Successful, no changes
-
-Mali2018 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Mali2018/DHS-Mali2018ind.dta not Stata format
--  AW reports issue rerunning, DW team resolves. Successful, no changes
-
-Philippines2017 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VII/DHS-Philippines2017/DHS-Philippines2017ind.dta not found
-- Updated raw data
-
-Tajikistan2017 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode    VII/DHS-Tajikistan2017/DHS-Tajikistan2017ind.dta not found
-- Updated raw data
-
-Timor-Leste2016 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode    VII/DHS-Timor-Leste2016/DHS-Timor-Leste2016birth.dta not found
-- Updated raw data, note TimorLeste, without dash sign '-'
-
-*/
+global DHScountries_Recode_VII "Senegal2018 Senegal2019 Afghanistan2015 Albania2017 Angola2015 Armenia2015 Benin2017 Burundi2016 Cameroon2018 Colombia2015 Ethiopia2016 Guinea2018 Haiti2016 Indonesia2017 Jordan2017 Malawi2015 Maldives2016 Mali2018 Myanmar2015 Nepal2016 Nigeria2018 PapuaNewGuinea2017 Philippines2017 Senegal2017 SouthAfrica2016 Tajikistan2017 Tanzania2015 TimorLeste2016 Uganda2016 Zambia2018 Zimbabwe2015"
 
 foreach name in  $DHScountries_Recode_VII  {	
 clear 
@@ -272,8 +248,9 @@ use `hm',clear
 	c_anc_eff3	c_anc_eff3_q	c_anc_ir	c_anc_ir_q	c_anc_ski	c_anc_ski_q ///
 	c_anc_tet	c_anc_tet_q	c_anc_ur	c_anc_ur_q	c_caesarean	c_earlybreast ///
 	c_facdel	c_hospdel	c_sba	c_sba_eff1	c_sba_eff1_q	c_sba_eff2 ///
-	c_sba_eff2_q	c_sba_q	c_skin2skin	c_pnc_any	c_pnc_eff	c_pnc_eff_q c_pnc_eff2	c_pnc_eff2_q {
-    replace `var' = . if !(inrange(hm_age_mon,0,23)& bidx ==1)
+	c_sba_eff2_q	c_sba_q	c_skin2skin	c_pnc_any	c_pnc_eff	c_pnc_eff_q c_pnc_eff2	///
+	c_pnc_eff2_q c_anc_public c_anc_hosp {
+		replace `var' = . if !(inrange(hm_age_mon,0,23)& bidx ==1)
     }
 	
 	***for variables generated from 4_sexual_health 5_woman_anthropometrics
