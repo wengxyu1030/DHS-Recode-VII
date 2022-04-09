@@ -3,7 +3,6 @@
 ******************************   
 
 
-*note: no corresponding variables found in dataset Liberia2019
 
 *w_papsmear	Women received a pap smear  (1/0)
 gen w_papsmear = .

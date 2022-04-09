@@ -30,7 +30,7 @@ if ~inlist(name,"Philippines2017","Ethiopia2016","Haiti2016","Liberia2019") {
 		foreach var of varlist h12a-h12x {
                  local lab: variable label `var' 
         replace `var' = . if ///
-                 regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|private mobile clinic|no treatment)") ///
+                 regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|no treatment)") ///
                  & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office)")  
 				 
 				  replace `var' = . if !inlist(`var',0,1) 
@@ -47,7 +47,7 @@ if ~inlist(name,"Philippines2017","Ethiopia2016","Haiti2016","Liberia2019") {
         replace c_diarrhea_pro = . if pro_dia == . 
 }    	
 
- ****why here add:1. varlist range changed(x→z) 2. new label*******
+
 if inlist(name,"Liberia2019") {
 		foreach var of varlist h12a-h12z {
                  local lab: variable label `var' 
@@ -161,7 +161,7 @@ if ~inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015","Liberia201
 
 order h32a-h32z,sequential
 		
-				 ****why here add:1. varlist range changed(x→z) 2. new label*******
+				
 if inlist(name,"Liberia2019") {
 		foreach var of varlist h32a-h32z {
                  local lab: variable label `var' 
