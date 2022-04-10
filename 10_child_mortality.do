@@ -38,6 +38,3 @@ else if inlist(name,"Philippines2017","Colombia2015","Indonesia2017") {
 else if inlist(name,"Afghanistan2015","Liberia2019") {
 	gen c_magebrt = v012 - round(b8)
 }
-
-
-
