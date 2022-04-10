@@ -35,7 +35,6 @@ if ~inlist(name,"Philippines2017","Afghanistan2015","Colombia2015","Indonesia201
 else if inlist(name,"Philippines2017","Colombia2015","Indonesia2017") {
 	gen c_magebrt = v012 - round(b19/12)
 }
-else if inlist(name,"Afghanistan2015") {
+else if inlist(name,"Afghanistan2015","Liberia2019") {
 	gen c_magebrt = v012 - round(b8)
 }
-
