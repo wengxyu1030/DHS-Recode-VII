@@ -45,7 +45,9 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	regexm(m15_lab,"hospital") & !regexm(m15_lab,"sub-center")
 	replace c_hospdel = . if mi(m15) | m15 == 99 | mi(m15_lab)	
 	// please check this indicator in case it's country specific
-
+	if inlist(name, "Armenia2015") {
+		replace c_hospdel= 1 if m15==22
+	}
 	if inlist(name, "Benin2017") {
 		replace c_hospdel= ( inlist(m15,21,31,32) ) if !mi(m15)   
 	}

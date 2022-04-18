@@ -179,7 +179,7 @@
 	gen c_anc_public = .
 	replace c_anc_public = 0 if !mi(m15)
 
-	capture confirm variable m57a
+	capture confirm variable m57e
 	if !_rc {
 		if !inlist(name,"Benin2017"){
 			foreach var of varlist m57e-m57l {
