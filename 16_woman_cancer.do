@@ -3,6 +3,7 @@
 ******************************   
 
 
+
 *w_papsmear	Women received a pap smear  (1/0)
 gen w_papsmear = .
 
