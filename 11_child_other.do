@@ -13,10 +13,10 @@
 
 	   }
 
-*w_mateduc	Mother's highest educational level ever attended (1 = none, 2 = primary, 3 = lower sec or higher)
-    recode v106 (0 = 1) (1 =2) (2/3 = 3) (6/8 = .),gen(w_mateduc)
+*c_mateduc	Mother's highest educational level ever attended (1 = none, 2 = primary, 3 = lower sec or higher)
+    recode v106 (0 = 1) (1 =2) (2/3 = 3) (6/8 = .),gen(c_mateduc)
 	  label define w_label 1 "none" 2 "primary" 3 "lower sec or higher"
-      label values w_mateduc w_label
+      label values c_mateduc w_label
 
 
 

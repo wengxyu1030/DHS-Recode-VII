@@ -28,13 +28,6 @@
 *hm_birthorder: Birth order
 	gen hm_birthorder = bord
 
-*c_magebrt: Mother's age at birth [DW - NOV2021]
-if ~inlist(name,"Philippines2017","Afghanistan2015","Colombia2015","Indonesia2017") {
-	gen c_magebrt = v012 - round(hw1/12)
-}
-else if inlist(name,"Philippines2017","Colombia2015","Indonesia2017") {
-	gen c_magebrt = v012 - round(b19/12)
-}
-else if inlist(name,"Afghanistan2015","Liberia2019") {
-	gen c_magebrt = v012 - round(b8)
-}
+*c_magebrt: Mother's age at birth
+	gen c_magebrt = v012 - (v007-b2)
+
