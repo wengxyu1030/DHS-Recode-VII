@@ -105,7 +105,7 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	replace stay = 1 if stay == 0 & (inrange(m61,124,198)|inrange(m61,201,298)|inrange(m61,301,399))
 	replace stay = . if inlist(m61,.,299,998)  & !inlist(m15,11,12,36,96) // filter question, based on m15
 	}
-	if inlist(name,"Cameroon2018"){
+	if inlist(name,"Cameroon2018","SierraLeone2019"){
 	gen stay = 0 if m15 != .
 	replace stay = 1 if stay == 0 & (inrange(m61,124,198)|inrange(m61,201,298)|inrange(m61,301,399))
 	replace stay = . if inlist(m61,.,299,998)  & !inlist(m15,11,12,26,96) // filter question, based on m15
