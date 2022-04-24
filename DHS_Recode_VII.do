@@ -24,29 +24,36 @@ macro drop _all
 if "`c(username)'" == "xweng"     local pc = 1
 	if "`c(username)'" == "robinwang"     local pc = 4
 	if "`c(username)'" == "Stellaaa"     local pc = 10086
+	if "`c(username)'" == "jiangning"    local pc = 10087
 
 if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
 	if `pc' == 4 global root "/Users/robinwang/Documents/MEASURE UHC DATA"
 	if `pc' == 10086 global root "D:\GitHub\DW HEFPI"
+	if `pc' == 10087 global root "/Users/jiangning/Documents/GitHub"
 	
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VII"
   if `pc' == 10086 global SOURCE "D:\dw\"
 	if `pc' == 4 global SOURCE "/Volumes/Seagate Portable Drive 1/HEFPI DATA/RAW DATA/DHS/DHS VII"
+	if `pc' ==10087 global SOURCE "/Users/jiangning/Documents/GitHub/OneDrive_3_2022-3-5"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
 	if `pc' == 4 global OUT "${root}/STATA/DATA/SC/FINAL"
 	if `pc' == 10086 global OUT "${root}\output"
+	if `pc' == 10087 global OUT "${root}\output"
 
 * Define path for INTERMEDIATE
 global INTER "${root}/STATA/DATA/SC/INTER"
 	if `pc' == 4 global INTER "${root}/STATA/DATA/SC/INTER"
     if `pc' == 10086 global INTER "${root}\inter"
+	if `pc' == 10087 global INTER "${root}\inter"
+	
 * Define path for do-files
 if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
 	if `pc' == 4 global DO "/Users/robinwang/Documents/MEASURE UHC DATA/DHS-Recode-VII"
     if `pc' == 10086 global DO "${root}\do"
+	if `pc' == 10086 global DO "/Users/jiangning/Documents/GitHub/DHS-Recode-VII"
 
 * Define the country names (in globals) in by Recode 
 do "${DO}/0_GLOBAL.do"
