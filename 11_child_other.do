@@ -10,7 +10,6 @@
 	if _rc == 0 {
 	replace c_ITN=(ml0==1 | ml0==2) 								
 	replace c_ITN=. if ml0==.                  //Children under 5 in country where malaria 
-
 	   }
 
 *c_mateduc	Mother's highest educational level ever attended (1 = none, 2 = primary, 3 = lower sec or higher)
