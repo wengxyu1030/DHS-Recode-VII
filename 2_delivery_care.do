@@ -51,6 +51,9 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	if inlist(name, "Benin2017") {
 		replace c_hospdel= ( inlist(m15,21,31,32) ) if !mi(m15)   
 	}
+	if inlist(name, "Albania2017") {
+		replace c_hospdel= 1 if m15==22  
+	}
 	 
 	*c_facdel: child born in formal health facility of births in last 2 years
 	
