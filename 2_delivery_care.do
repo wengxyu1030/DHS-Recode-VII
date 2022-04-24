@@ -95,7 +95,7 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	replace c_caesarean = . if m15 == .
 	
     *c_sba_eff1: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth)
-  	if !inlist(name,"Angola2015","Burundi2016","Cameroon2018","Colombia2015","Nepal2016","Tanzania2015"){
+  	if !inlist(name,"Angola2015","Burundi2016","Cameroon2018","Colombia2015","Nepal2016","Tanzania2015","SierraLeone2019"){
 	gen stay = 0 if m15 != .
 	replace stay = 1 if stay == 0 & (inrange(m61,124,198)|inrange(m61,201,298)|inrange(m61,301,399))
 	replace stay = . if inlist(m61,.,299,998)  & !inlist(m15,11,12,96) // filter question, based on m15
