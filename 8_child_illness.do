@@ -26,7 +26,7 @@
 		
 *c_diarrhea_pro	The treatment was provided by a formal provider (all public provider except other public, pharmacy, and private sector)
 
-if ~inlist(name,"Philippines2017","Ethiopia2016","Haiti2016") {
+if ~inlist(name,"Philippines2017","Ethiopia2016","Haiti2016","Liberia2019") {
 		foreach var of varlist h12a-h12x {
                  local lab: variable label `var' 
         replace `var' = . if ///
@@ -34,7 +34,8 @@ if ~inlist(name,"Philippines2017","Ethiopia2016","Haiti2016") {
                  & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office)")  
 
 				  replace `var' = . if !inlist(`var',0,1) 
-				 			 
+                  
+				  
 /* do not consider formal if contain words in 
                  the first group but don't contain any words in the second group */
        }
@@ -46,6 +47,24 @@ if ~inlist(name,"Philippines2017","Ethiopia2016","Haiti2016") {
         replace c_diarrhea_pro = . if pro_dia == . 
 }    	
 
+
+if inlist(name,"Liberia2019") {
+		foreach var of varlist h12a-h12z {
+                 local lab: variable label `var' 
+        replace `var' = . if ///
+                 regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|medical treatment|drug|addo|hilot|traditional|cs private medical|cs public sector|private mobile clinic|no treatment)") ///
+                 & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office|public mobile clinic )")  
+				 
+				  replace `var' = . if !inlist(`var',0,1) 	
+				  }
+				  order h12*,sequential
+        egen pro_dia = rowtotal(h12a-h12z),mi
+
+        gen c_diarrhea_pro = 0 if c_diarrhea == 1
+        replace c_diarrhea_pro = 1 if pro_dia >= 1 
+        replace c_diarrhea_pro = . if pro_dia == . 
+				  }
+				  
 if inlist(name,"Philippines2017","Ethiopia2016","Haiti2016") {		
 		if inlist(name,"Philippines2017") {
 			global h12 "h12a h12b h12c h12d h12j h12l"	
@@ -123,23 +142,40 @@ if inlist(name,"Philippines2017","Ethiopia2016","Haiti2016") {
 	    
 		order h32a-h32x,sequential	
 		
-if ~inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015") {
+if ~inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015","Liberia2019") {
 		foreach var of varlist h32a-h32x {
                  local lab: variable label `var' 
         replace `var' = . if ///   				 
 		regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|no treatment|chemist/)") ///
                  & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office)")  
 		replace `var' = . if !inlist(`var',0,1)
-                 /* do not consider formal if contain words in the first group but don't contain any words in the second group */
-       }
+		}
+		
        egen pro_ari = rowtotal(h32a-h32x),mi
 
 		foreach var of varlist c_treatARI c_treatARI2 {
         replace `var' = 1 if `var' == 0 & pro_ari >= 1 
         replace `var'  = . if pro_ari == . 	
 		}
-}
+}		
+				
+if inlist(name,"Liberia2019") {
+		foreach var of varlist h32a-h32z {
+                 local lab: variable label `var' 
+        replace `var' = . if ///
+                 regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|medical treatment|drug|addo|hilot|traditional|cs private medical|cs public sector|private mobile clinic|no treatment)") ///
+                 & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office|public mobile clinic )")  
+				 
+				  replace `var' = . if !inlist(`var',0,1) 				
+                 /* do not consider formal if contain words in the first group but don't contain any words in the second group */
+       }
+egen pro_ari = rowtotal(h32a-h32x),mi
 
+		foreach var of varlist c_treatARI c_treatARI2 {
+        replace `var' = 1 if `var' == 0 & pro_ari >= 1 
+        replace `var'  = . if pro_ari == . 	
+		}
+	}
 if inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015") {		
 		if inlist(name,"Benin2017") {
 			global h32 "h32a h32b h32c h32d h32e h32f h32g h32j h32l h32m h32n h32o"
@@ -190,7 +226,6 @@ if inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015") {
 				
         gen c_illtreat2 = (c_fevertreat == 1 | c_diarrhea_pro == 1 | c_treatARI2 == 1) if c_illness2 == 1
 		replace c_illtreat2 = . if (c_fever == 1 & c_fevertreat == .) | (c_diarrhea == 1 & c_diarrhea_pro == .) | (c_ari2 == 1 & c_treatARI2 == .) 
-
 
 
 

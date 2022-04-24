@@ -28,10 +28,6 @@
 *hm_birthorder: Birth order
 	gen hm_birthorder = bord
 
-*c_magebrt: Mother's age at birth [DW - NOV2021]
+*c_magebrt: Mother's age at birth
 	gen c_magebrt = v012 - (v007-b2)
-	
-*******compare with statacompiler
-preserve
-keep if inrange(hm_age_mon,0,59)
-restore
+
