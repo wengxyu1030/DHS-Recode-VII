@@ -30,8 +30,9 @@ if ~inlist(name,"Philippines2017","Ethiopia2016","Haiti2016") {
 		foreach var of varlist h12a-h12x {
                  local lab: variable label `var' 
         replace `var' = . if ///
-                 regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|no treatment)") ///
+                 regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|no treatment|chemist/)") ///
                  & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office)")  
+
 				  replace `var' = . if !inlist(`var',0,1) 
 				 			 
 /* do not consider formal if contain words in 
@@ -126,7 +127,7 @@ if ~inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015") {
 		foreach var of varlist h32a-h32x {
                  local lab: variable label `var' 
         replace `var' = . if ///   				 
-		regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|no treatment)") ///
+		regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|no treatment|chemist/)") ///
                  & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office)")  
 		replace `var' = . if !inlist(`var',0,1)
                  /* do not consider formal if contain words in the first group but don't contain any words in the second group */
