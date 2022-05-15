@@ -32,7 +32,7 @@ if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VII"
   if `pc' == 10086 global SOURCE "D:\dw\"
-	if `pc' == 4 global SOURCE "/Volumes/Seagate Portable Drive 1/HEFPI DATA/RAW DATA/DHS/DHS VII"
+	if `pc' == 4 global SOURCE "/Volumes/Seagate Bas/HEFPI DATA/RAW DATA/DHS/DHS VII"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
@@ -52,9 +52,6 @@ if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
 do "${DO}/0_GLOBAL.do"
 
 global DHScountries_Recode_VII "Senegal2018 Senegal2019 Afghanistan2015 Albania2017 Angola2015 Armenia2015 Benin2017 Burundi2016 Cameroon2018 Colombia2015 Ethiopia2016 Guinea2018 Haiti2016 Indonesia2017 Jordan2017 Malawi2015 Maldives2016 Mali2018 Myanmar2015 Nepal2016 Nigeria2018 PapuaNewGuinea2017 Philippines2017 Senegal2017 SouthAfrica2016 Tajikistan2017 Tanzania2015 TimorLeste2016 Uganda2016 Zambia2018 Zimbabwe2015"
-global DHScountries_Recode_VII "SouthAfrica2016"
-global DHScountries_Recode_VII "Liberia2019"
-
 
 foreach name in  $DHScountries_Recode_VII  {	
 clear 
@@ -177,7 +174,7 @@ use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
 
 	tempfile pre_hh_birth
 		save `pre_hh_birth', replace
-		use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", replace
+		use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", replace	
 		
 		merge m:1 v001 v002 v003 using `pre_hh_birth'
 		*drop if _merge != 3 /*as the base is now birth.dta, keep observations from hm per original logic*/
@@ -189,7 +186,6 @@ use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
     rename (v001 v002 v003) (hv001 hv002 hvidx) 
     drop _merge
 	*/
-
     do "${DO}/15_household"
 
 keep hv001 hv002 hv003 hh_* ind_*
@@ -214,7 +210,7 @@ use `hm',clear
 	bysort hv001 hv002: egen min = min(w_sampleweight)
 	replace w_sampleweight = min if w_sampleweight ==.
     replace hm_headrel = 99 if _merge == 2
-	label define hm_headrel_lab 99 "dead/no longer in the household"
+	label define hm_headrel_lab 1 "head" 2 "wife/husband" 3 "son/daughter" 4 "son/daughter-in-law" 5 "grandchild" 6 "parent" 7 "parent-in-law" 8 "brother/sister" 10 "other relative" 11 "adopted child" 12 "not related" 13 "foster" 14 "stepchild" 99 "dead/no longer in the household"
 	label values hm_headrel hm_headrel_lab
 	replace hm_live = 0 if _merge == 2 | inlist(hm_headrel,.,12,98)
 	drop _merge
