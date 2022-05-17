@@ -2,7 +2,7 @@
 *****************************************
 *** Combine the quality control result **
 *****************************************
-ssc install fs
+*ssc install fs
 
 cd "${INTER}"	
 fs  quality_control*.dta
