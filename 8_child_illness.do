@@ -160,8 +160,9 @@ if ~inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015","Liberia201
 }		
 				
 if inlist(name,"Liberia2019") {
-		foreach var of varlist h32a-h32z {
-                 local lab: variable label `var' 
+		foreach var of varlist h32a-h32x {
+		
+        local lab: variable label `var' 
         replace `var' = . if ///
                  regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|medical treatment|drug|addo|hilot|traditional|cs private medical|cs public sector|private mobile clinic|no treatment)") ///
                  & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office|public mobile clinic )")  
@@ -169,7 +170,7 @@ if inlist(name,"Liberia2019") {
 				  replace `var' = . if !inlist(`var',0,1) 				
                  /* do not consider formal if contain words in the first group but don't contain any words in the second group */
        }
-egen pro_ari = rowtotal(h32a-h32x),mi
+		egen pro_ari = rowtotal(h32a-h32x),mi
 
 		foreach var of varlist c_treatARI c_treatARI2 {
         replace `var' = 1 if `var' == 0 & pro_ari >= 1 
