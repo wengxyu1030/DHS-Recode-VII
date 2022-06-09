@@ -147,7 +147,7 @@ if ~inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015","Liberia201
                  local lab: variable label `var' 
         replace `var' = . if ///   				 
 		regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|no treatment|chemist/)") ///
-                 & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office)")  
+                 & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|health centre|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office)")  
 		replace `var' = . if !inlist(`var',0,1)
 		}
 		
@@ -195,7 +195,7 @@ if inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015") {
 			}
 }
 		
-*c_fevertreat	Child with fever symptoms seen by formal provider	
+*	Child with fever symptoms seen by formal provider	
 
         if inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015") {
 	       gen c_fevertreat = 0 if c_fever == 1
