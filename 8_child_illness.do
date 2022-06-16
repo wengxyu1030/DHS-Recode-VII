@@ -26,7 +26,7 @@
 		
 *c_diarrhea_pro	The treatment was provided by a formal provider (all public provider except other public, pharmacy, and private sector)
 
-if ~inlist(name,"Philippines2017","Ethiopia2016","Haiti2016","Liberia2019","Pakistan2017") {
+if ~inlist(name,"Philippines2017","Ethiopia2016","Haiti2016","Liberia2019","Pakistan2017","Bangladesh2017") {
 		foreach var of varlist h12a-h12x {
                  local lab: variable label `var' 
         replace `var' = . if ///
@@ -81,7 +81,24 @@ if inlist(name,"Pakistan2017") {
         replace c_diarrhea_pro = 1 if pro_dia >= 1 
         replace c_diarrhea_pro = . if pro_dia == . 
 }    	
-				  
+
+if inlist(name,"Bangladesh2017") {
+	    foreach var of varlist h12a-h12x {
+                 local lab: variable label `var' 
+        replace `var' = . if ///
+                 regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|no treatment|non-qualified|mcwc|chemist/)") ///
+                 & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office)")  
+
+				  replace `var' = . if !inlist(`var',0,1) 
+       }
+        order h12*,sequential
+        egen pro_dia = rowtotal(h12a-h12x),mi
+
+        gen c_diarrhea_pro = 0 if c_diarrhea == 1
+        replace c_diarrhea_pro = 1 if pro_dia >= 1 
+        replace c_diarrhea_pro = . if pro_dia == . 
+}    	
+					  
 if inlist(name,"Philippines2017","Ethiopia2016","Haiti2016") {		
 		if inlist(name,"Philippines2017") {
 			global h12 "h12a h12b h12c h12d h12j h12l"	
@@ -159,7 +176,7 @@ if inlist(name,"Philippines2017","Ethiopia2016","Haiti2016") {
 	    
 		order h32a-h32x,sequential	
 		
-if ~inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015","Liberia2019","Pakistan2017") {
+if ~inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015","Liberia2019","Pakistan2017","Bangladesh2017") {
 		foreach var of varlist h32a-h32x {
                  local lab: variable label `var' 
         replace `var' = . if ///   				 
@@ -229,7 +246,23 @@ if inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015") {
 				replace c_treatARI2 = . if `var' == 9
 			}
 }
+
+if inlist(name,"Bangladesh2017") {
+		foreach var of varlist h32a-h32x {
+                 local lab: variable label `var' 
+        replace `var' = . if ///   				 
+		regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|no treatment|mcwc|non-qualified|chemist/)") ///
+                 & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|health centre|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office)")  
+		replace `var' = . if !inlist(`var',0,1)
+		}
 		
+       egen pro_ari = rowtotal(h32a-h32x),mi
+
+		foreach var of varlist c_treatARI c_treatARI2 {
+        replace `var' = 1 if `var' == 0 & pro_ari >= 1 
+        replace `var'  = . if pro_ari == . 	
+		}
+}				
 *c_fevertreat	Child with fever symptoms seen by formal provider	
 
         if inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015") {
