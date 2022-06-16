@@ -25,7 +25,7 @@
 	local lab: variable label `var' 
 
     replace `var' = . if ///
-	!regexm("`lab'","trained") & (!regexm("`lab'","doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|matron|general practitioner|health officer|extension|ob-gy") ///
+	!regexm("`lab'","trained") & (!regexm("`lab'","doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|community skilled birth attendant|sub-assistant community medical|matron|general practitioner|health officer|extension|ob-gy") ///
 	|regexm("`lab'","na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife|box|community|village birth attendant"))
 
 	replace `var' = . if !inlist(`var',0,1)
@@ -41,6 +41,10 @@
 	if inlist(name,"Nepal2016") {
 		replace m2d = .  // Nepal doesn't include health assistant in the report.
 	}	
+	if inlist(name, "Pakistan2017") {
+		replace m2l=. 
+		replace m2m=. // exclude untrained tba, unqualified doctor.
+	}
 	/* do consider as skilled if contain words in the first group but don't contain any words in the second group */
 
     egen anc_skill = rowtotal(m2a-m2m),mi
