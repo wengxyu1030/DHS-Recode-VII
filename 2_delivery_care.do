@@ -30,6 +30,10 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	if inlist(name,"Nepal2016") {
 		replace m3d = .  // Nepal doesn't include health assistant in the report.
 	}
+	if inlist(name,"Liberia2019"){
+	    replace m3g=. // "traditional birth midwife" should not be included
+	}
+	
 	/* do consider as skilled if contain words in the first group but don't contain any words in the second group */
 
 	egen sba_skill = rowtotal(m3a-m3m),mi
