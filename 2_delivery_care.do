@@ -21,7 +21,6 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	|regexm("`lab'","na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife|box|community|village birth attendant"))
 	
 	replace `var' = . if !inlist(`var',0,1)
-	
 	 }
 	 
 	if inlist(name, "Senegal2017", "Senegal2018", "Senegal2019") {

@@ -34,7 +34,7 @@ if ~inlist(name,"Philippines2017","Ethiopia2016","Haiti2016","Liberia2019","Paki
                  & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office)")  
 
 				  replace `var' = . if !inlist(`var',0,1) 
-                  
+                 
 				  
 /* do not consider formal if contain words in 
                  the first group but don't contain any words in the second group */
@@ -183,6 +183,7 @@ if ~inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015","Liberia201
 		regexm("`lab'","(other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|no treatment|chemist/)") ///
                  & !regexm("`lab'","(ngo|hospital|medical center|traditional practioner$|sub health center|health center|health centre|aid post|trained vhv and other government|maternity home|diagnostic center|wome('s|n's) consultation|(pol|po)yclinic|fap|emergency services|ambulatory/family doctor office)")  
 		replace `var' = . if !inlist(`var',0,1)
+		
 		}
 		
        egen pro_ari = rowtotal(h32a-h32x),mi
@@ -257,7 +258,7 @@ if inlist(name,"Bangladesh2017") {
 		replace `var' = . if !inlist(`var',0,1)
 		}
 		
-       egen pro_ari = rowtotal(h32a-h32x),mi
+    egen pro_ari = rowtotal(h32a-h32x),mi
 
 		foreach var of varlist c_treatARI c_treatARI2 {
         replace `var' = 1 if `var' == 0 & pro_ari >= 1 
@@ -266,6 +267,7 @@ if inlist(name,"Bangladesh2017") {
 }		
 		
 *c_fevertreat	Child with fever symptoms seen by formal provider	
+
 
         if inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015") {
 	       gen c_fevertreat = 0 if c_fever == 1
@@ -296,7 +298,6 @@ if inlist(name,"Bangladesh2017") {
 				
         gen c_illtreat2 = (c_fevertreat == 1 | c_diarrhea_pro == 1 | c_treatARI2 == 1) if c_illness2 == 1
 		replace c_illtreat2 = . if (c_fever == 1 & c_fevertreat == .) | (c_diarrhea == 1 & c_diarrhea_pro == .) | (c_ari2 == 1 & c_treatARI2 == .) 
-
 
 
 
