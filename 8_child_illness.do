@@ -228,6 +228,7 @@ if inlist(name,"Pakistan2017") {
         replace `var' = 1 if `var' == 0 & pro_ari >= 1 
         replace `var'  = . if pro_ari == . 	
 		}
+	}
 	
 if inlist(name,"Benin2017","Ethiopia2016","Haiti2016","Armenia2015") {		
 		if inlist(name,"Benin2017") {
@@ -263,7 +264,8 @@ if inlist(name,"Bangladesh2017") {
         replace `var' = 1 if `var' == 0 & pro_ari >= 1 
         replace `var'  = . if pro_ari == . 	
 		}
-}				
+}		
+		
 *c_fevertreat	Child with fever symptoms seen by formal provider	
 
 
