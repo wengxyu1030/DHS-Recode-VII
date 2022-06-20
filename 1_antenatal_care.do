@@ -172,7 +172,7 @@
 			local lab: variable label lower_`var' 
 			replace c_anc_hosp = 1 if (regexm("`lab'","medical college|surgical") | (regexm("`lab'","hospital") | regexm("`lab'","hosp")) & !regexm("`lab'","sub-center")) & `var'==1
 			 }
-
+		
 	}
 
 	*c_anc_public : Received antenatal care in public facilities	 
