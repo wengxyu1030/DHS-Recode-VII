@@ -2,7 +2,7 @@
 
 global SOURCE "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA - Sven Neelsen's files/RAW DATA/DHS/Peru-INEI"
 
-local i=2021
+local i=2018
 
 /*
 2012-2016 is converted
@@ -75,15 +75,7 @@ if `i' == 2017 {
     drop bd bdd bmm baa bcmc bedad fnac_imp fentr_imp 
 } //Added0727, only bord and bidx is needed, drop other irrelevant variables
 
-if `i' == 2018 {
-    drop bd bdd bmm baa bcmc bedad qd333_1 qd333_2 qd333_3 qd333_4 qd333_5 qd333_6 q220a qult5
-} //Added0727, only bord and bidx is needed, drop other irrelevant variables
-
-if `i' == 2019 {
-    drop bd bdd bmm baa bcmc bedad qd333_1 qd333_2 qd333_3 qd333_4 qd333_5 qd333_6 q220a qult5
-} //Added0727, only bord and bidx is needed, drop other irrelevant variables
-
-if `i' == 2020{
+if inlist(`i',2018,2019,2020,2021) {
     drop bd bdd bmm baa bcmc bedad qd333_1 qd333_2 qd333_3 qd333_4 qd333_5 qd333_6 q220a qult5
 } //Added0727, only bord and bidx is needed, drop other irrelevant variables
 
