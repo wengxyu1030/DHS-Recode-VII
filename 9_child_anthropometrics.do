@@ -4,6 +4,9 @@
 ******************************   
 *c_stunted: Child under 5 stunted
 * DW Nov 2021 - add hc72
+
+capture confirm variable hc70 hc71 hc72 
+if _rc == 0 {
     foreach var in hc70 hc71 hc72 {
     replace `var'=. if `var'>900
     replace `var'=`var'/100
@@ -15,6 +18,7 @@
     gen c_stunted=1 if hc70<-2
     replace c_stunted=0 if hc70>=-2 & hc70!=.
 	
+
 *c_underweight: Child under 5 underweight
     gen c_underweight=1 if hc71<-2
     replace c_underweight=0 if hc71>=-2 & hc71!=.
@@ -30,7 +34,20 @@ replace c_wasted=0 if hc72>=-2 & hc72!=.
     replace c_underweight_sev=0 if hc71>=-3 & hc71!=.
 	gen c_wasted_sev=1 if hc72<-3
 	replace c_wasted_sev=0 if hc72>=-3 & hc72!=.
+}
+
+if _rc != 0 {
+    gen c_stunted = . 
+	gen c_wasted = .
+	gen c_stunted_sev = .
+	gen c_underweight = .
+	gen c_underweight_sev = .
+	gen c_wasted_sev = .
+	gen hc70 = .
+	gen hc71 = .
+	gen hc72 = .
 	
+}
 							
 *ant_sampleweight Child anthropometric sampling weight
     gen ant_sampleweight = hv005/10e6

@@ -53,11 +53,18 @@
 	
 /* DW Apr 2022 */
 
-* Household Head - Age [raw]
-	rename hv220 hh_headage_raw
 
+capture confirm var hv220 Head
+if _rc == 0 {
+	rename hv220 hh_headage_raw
+}
+
+if _rc != 0 {
+* Household Head - Age [raw]
+    gen hh_headage_raw = .
 * Household Head - Sex [raw]
-	rename hv219 hh_headsex_raw	
+	gen hh_headsex_raw = . 
+}
 
 * Household Head - Education [hm file, computed]
 	* create mod-education indicator

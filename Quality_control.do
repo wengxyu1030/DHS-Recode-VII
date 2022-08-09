@@ -200,7 +200,7 @@ egen value_my`var' = wtmean(`var'),weight(hh_sampleweight)
 }
 
 *indicator caculate for child_anthropometrics (using ant_sampleweight）
-foreach var of var c_underweight c_stunted c_wasted c_underweight_sev c_stunted_sev c_stu_was c_stu_was_sev {
+foreach var of var c_underweight c_stunted c_wasted  c_stunted_sev c_stu_was c_stu_was_sev c_underweight_sev { 
 egen value_my`var' = wtmean(`var'),weight(ant_sampleweight)
 }
 
