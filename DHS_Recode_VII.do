@@ -24,52 +24,47 @@ macro drop _all
 if "`c(username)'" == "xweng"     local pc = 1
 	if "`c(username)'" == "robinwang"     local pc = 4
 	if "`c(username)'" == "Stellaaa"     local pc = 10086
-	if "`c(username)'" == "jiangning"    local pc = 10087
 
-if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
+if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA - Sven Neelsen's files"
 	if `pc' == 4 global root "/Users/robinwang/Documents/MEASURE UHC DATA"
 	if `pc' == 10086 global root "D:\GitHub\DW HEFPI"
-	if `pc' == 10087 global root "/Users/jiangning/Documents/GitHub"
 	
 * Define path for data sources
-global SOURCE "${root}/RAW DATA/Recode VII"
+global SOURCE "${root}/RAW DATA/DHS/DHS VII"
   if `pc' == 10086 global SOURCE "D:\dw\"
-	if `pc' ==10087 global SOURCE "/Users/jiangning/Documents/GitHub/OneDrive_3_2022-3-5"
 	if `pc' == 4 global SOURCE "/Volumes/Seagate Bas/HEFPI DATA/RAW DATA/DHS/DHS VII"
 
 * Define path for output data
-global OUT "${root}/STATA/DATA/SC/FINAL"
+global OUT "${root}/STATA/DATA/SC/ADePT READY/DHS/DHS-Recode-VII"
 	if `pc' == 4 global OUT "${root}/STATA/DATA/SC/FINAL"
 	if `pc' == 10086 global OUT "${root}\output"
-	if `pc' == 10087 global OUT "${root}/output"
 
 * Define path for INTERMEDIATE
-global INTER "${root}/STATA/DATA/SC/INTER"
+global INTER "${root}/STATA/DATA/SC/ADePT READY/DHS/INTER"
 	if `pc' == 4 global INTER "${root}/STATA/DATA/SC/INTER"
     if `pc' == 10086 global INTER "${root}\inter"
-	if `pc' == 10087 global INTER "${root}/inter"
 	
 * Define path for do-files
-if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VII"
+if `pc' != 0 global DO "${root}/STATA/DO/SC-DW2021-2022/DHS-Recode-VII"
 	if `pc' == 4 global DO "/Users/robinwang/Documents/MEASURE UHC DATA/DHS-Recode-VII"
     if `pc' == 10086 global DO "${root}\do"
-	if `pc' == 10087 global DO "/Users/jiangning/Documents/GitHub/DHS-Recode-VII"
 
 * Define the country names (in globals) in by Recode 
 do "${DO}/0_GLOBAL.do"
 
-global DHScountries_Recode_VII "Senegal2018 Senegal2019 Afghanistan2015 Albania2017 Angola2015 Armenia2015 Benin2017 Burundi2016 Cameroon2018 Colombia2015 Ethiopia2016 Guinea2018 Haiti2016 Indonesia2017 Jordan2017 Malawi2015 Maldives2016 Mali2018 Myanmar2015 Nepal2016 Nigeria2018 PapuaNewGuinea2017 Philippines2017 Senegal2017 SouthAfrica2016 Tajikistan2017 Tanzania2015 TimorLeste2016 Uganda2016 Zambia2018 Zimbabwe2015 Liberia2019 SierraLeone2019"
-global DHScountries_Recode_VII "Mauritania2019"
-global DHScountries_Recode_VII "Pakistan2017 Bangladesh2017"
+global DHScountries_Recode_VII "Senegal2018 Senegal2019 Afghanistan2015 Albania2017 Angola2015 Armenia2015 Benin2017 Burundi2016 Cameroon2018 Colombia2015 Ethiopia2016 Guinea2018 Haiti2016 Indonesia2017 Jordan2017 Malawi2015 Maldives2016 Mali2018 Myanmar2015 Nepal2016 Nigeria2018 PapuaNewGuinea2017 Philippines2017 Senegal2017 SouthAfrica2016 Tajikistan2017 Tanzania2015 TimorLeste2016 Uganda2016 Zambia2018 Zimbabwe2015 Liberia2019"
+global DHScountries_Recode_VII "Peru2016"
 
 
-foreach name in  $DHScountries_Recode_VII  {	
+foreach name in $DHScountries_Recode_VII  {	
 clear 
 tempfile birth ind men hm hiv hh iso
 
 ******************************
 *****domains using birth data*
 ******************************
+capture confirm file "${SOURCE}/DHS-`name'/DHS-`name'birth.dta"
+if _rc == 0 {
 use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear	
     gen hm_age_mon = (v008 - b3)           //hm_age_mon Age in months (children only)
     gen name = "`name'"
@@ -110,6 +105,14 @@ use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear
 	
 rename (v001 v002 b16) (hv001 hv002 hvidx)
 keep hv001 hv002 hvidx bidx c_* mor_* w_* hm_*
+}
+
+if _rc != 0 {
+use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta",clear
+	keep hv001 hv002 hvidx 
+    do "${DO}/no_birth"
+}
+
 save `birth'
 
 ******************************
@@ -148,7 +151,8 @@ save `men'
 
 ************************************
 *****domains using hm level data****
-************************************
+************************************v
+
 use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
 gen name = "`name'"
     do "${DO}/9_child_anthropometrics"  
@@ -157,7 +161,8 @@ gen name = "`name'"
 
 * DW Nov 2021 : add hc72
 keep hv001 hv002 hvidx hc70 hc71 hc72 ///
-c_* ant_* a_* hm_* ln
+c_* ant_* a_* hm_* ln w_*
+duplicates drop hv001 hv002 hvidx, force
 save `hm'
 
 capture confirm file "${SOURCE}/DHS-`name'/DHS-`name'hiv.dta"
@@ -180,22 +185,38 @@ save `hm',replace
 *****domains using hh level data****
 ************************************
 use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
-    rename (hv001 hv002 hvidx) (v001 v002 v003)
+duplicates drop hv001 hv002 hvidx,force 
 
 	tempfile pre_hh_birth
-		save `pre_hh_birth', replace
-		use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", replace	
+	save `pre_hh_birth', replace
 		
-		merge m:1 v001 v002 v003 using `pre_hh_birth'
+		capture confirm file "${SOURCE}/DHS-`name'/DHS-`name'birth.dta" 
+		if _rc == 0 {
+		use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear	
+		rename (v001 v002 v003) (hv001 hv002 hvidx)
+		merge m:1 hv001 hv002 hvidx using `pre_hh_birth'
 		*drop if _merge != 3 /*as the base is now birth.dta, keep observations from hm per original logic*/
-		rename (v001 v002 v003) (hv001 hv002 hvidx) 
-		drop _merge		
-
+		drop _merge
+		 
+		}
+		
+	
+		capture confirm file "${SOURCE}/DHS-`name'/DHS-`name'hh.dta"  //for cases in Peru
+		if _rc == 0 {
+		use "${SOURCE}/DHS-`name'/DHS-`name'hh.dta", clear
+		rename hv003 hvidx
+		duplicates drop hv001 hv002 hvidx,force
+		merge m:1 hv001 hv002 hvidx using `pre_hh_birth'
+		drop _merge
+        }
+	
 	/*ORIGINAL 
     merge 1:m v001 v002 v003 using "${SOURCE}/DHS-`name'/DHS-`name'birth.dta"
     rename (v001 v002 v003) (hv001 hv002 hvidx) 
     drop _merge
 	*/
+	
+	
     do "${DO}/15_household"
 
 keep hv001 hv002 hv003 hh_* ind_*
@@ -210,6 +231,7 @@ use "${SOURCE}/external/iso", clear
 keep country iso2c iso3c	
 replace country = "Tanzania"  if country == "Tanzania, United Republic of"
 replace country = "PapuaNewGuinea" if country == "Papua New Guinea"
+
 save `iso'
 
 ***merge all subset of microdata
@@ -235,10 +257,7 @@ use `hm',clear
 	tostring(year),replace
     gen country = regexs(0) if regexm("`name'","([a-zA-Z]+)")
 	replace country = "South Africa" if country == "SouthAfrica"
-	*replace country = "Timor-Leste" if country == "Timor"
-	if ("`name'" == "TimorLeste2016") {
-		replace country = "Timor-Leste"
-	}
+	replace country = "Timor-Leste" if country == "Timor"
 	
     merge m:1 country using `iso',force
     drop if _merge == 2
