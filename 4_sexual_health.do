@@ -17,6 +17,11 @@
 		
 	gen w_condom_conc=1 if wcondom==1 & wconc_partnerships==1
     replace w_condom_conc=0 if wcondom==0 & wconc_partnerships==1
+    
+    ** another version **
+	gen w_condom_conc_=1 if v761 == 1 & v766b > 1 & v766b!=98 & v766b!=99
+	replace w_condom_conc_=0 if v761 == 0 & v766b > 1 & v766b!=98 & v766b!=99
+	
 	
 	*w_CPR: Use of modern contraceptive methods of women age 15(!)-49 married or living in union
 	gen w_CPR=(v313==3)
