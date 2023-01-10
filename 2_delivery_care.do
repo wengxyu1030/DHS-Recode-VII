@@ -68,19 +68,24 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	replace c_facdel = 1 if regexm(m15_lab,"hospital|maternity|health center|dispensary") | ///
 	!regexm(m15_lab,"home|other private|other$|pharmacy|non medical|private nurse|religious|abroad|india|other public|tba")
 	replace c_facdel = . if mi(m15) | m15 == 99 | mi(m15_lab)
-
+	
+	*** changes :another version ***
+	/* replace the places begin with the word 'other' */
+        gen c_facdel_ = 0 if !mi(m15)
+	replace c_facdel_ = 1 if regexm(m15_lab,"hospital|maternity|health center|dispensary") | ///
+	!regexm(m15_lab,"home|^other|other$|pharmacy|non medical|private nurse|religious|abroad|india|tba")
+	replace c_facdel_ = . if mi(m15) | m15 == 99 | mi(m15_lab)
+	
 	
 	*c_earlybreast: child breastfed within 1 hours of birth of births in last 2 years
-	
-	gen c_earlybreast = 0
+	gen c_earlybreast  = inlist(m34,0,100) if !inlist(m34,199,299,.)  // code . if m34 or m4 missing
+	replace c_earlybreast = 0 if m4 ==94  // code 0 if no breastfeeding
 
+/*	or:
+	gen c_earlybreast = 0
 	replace c_earlybreast  = 1 if inlist(m34,0,100)
 	replace c_earlybreast  = . if inlist(m34,199,999)
 	replace c_earlybreast  = . if m34 ==. & m4 != 94
-
-/*	or:
-	gen c_earlybreast  = inlist(m34,0,100) if !inlist(m34,199,299,.)  // code . if m34 or m4 missing
-	replace c_earlybreast = 0 if m4 ==94  // code 0 if no breastfeeding
 */  
 	
     *c_skin2skin: child placed on mother's bare skin immediately after birth of births in last 2 years
