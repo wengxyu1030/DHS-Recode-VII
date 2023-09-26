@@ -1,7 +1,22 @@
 ******************************
 *** Antenatal care *********** 
 ******************************   
+pause anc
+/*
+tab m14
+tab m2n
+tab m13
 
+*check m2a~m2m
+
+*check m42~
+tab m1 
+tab m45 
+tab m1
+
+*check m57*
+
+*/
 
 	*c_anc: 4+ antenatal care visits of births in last 2 years	
 	gen c_anc = (inrange(m14,4,97)) if m14<=97                                                //Last pregnancies in last 2 years of women currently aged 15-49	 
@@ -124,7 +139,7 @@
 		
 	gen c_anc_tet = (rh_anc_neotet == 1) if  !mi(rh_anc_neotet)
 	
-	if inlist(name,"Bangladesh2017"){
+	if inlist(name,"Bangladesh2017","Turkey2018"){
 		replace c_anc_tet=.
 		replace rh_anc_neotet =.
 	}
@@ -185,7 +200,7 @@
 
 	capture confirm variable m57e
 	if !_rc {
-		if !inlist(name,"Benin2017"){
+		if !inlist(name,"Benin2017","Turkey2018"){
 			foreach var of varlist m57e-m57l {
 				replace c_anc_public = 1 if `var'==1
 			}

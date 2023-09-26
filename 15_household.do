@@ -3,6 +3,11 @@
 *****Household Level Info*****
 ******************************   
 
+pause hh
+/*
+
+*/
+
 *hh_id	ID (generated)      
     gen hh_id = hhid
 	

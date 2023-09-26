@@ -2,6 +2,10 @@
 ********************************
 *** Woman anthropometrics*******
 ******************************** 	
+pause woman anthropo
+/*
+
+*/
 
 *w_bmi_1549	15-49y woman's BMI      
 	foreach var of varlist v437 v438 {

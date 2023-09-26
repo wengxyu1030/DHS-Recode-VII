@@ -2,6 +2,10 @@
 ******************************
 *** Child vaccination ********
 ******************************   
+pause vac
+/*
+
+*/
 
 *c_measles	child			Child received measles1/MMR1 vaccination	
 		gen c_measles  = . 

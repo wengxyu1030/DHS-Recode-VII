@@ -2,6 +2,12 @@
 ********************
 ***Demographics*****
 ********************
+pause demographics
+/*
+
+*/
+
+
 * HM data
 * w_sampleweight
   g w_sampleweight = hv005/10e6

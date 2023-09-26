@@ -2,6 +2,10 @@
 ******************************
 *** Child mortality***********
 ******************************   
+pause mortality_11
+/*
+
+*/	
 	
 *c_ITN	Child slept under insecticide-treated-bednet (ITN) last night.
     gen c_ITN = .
