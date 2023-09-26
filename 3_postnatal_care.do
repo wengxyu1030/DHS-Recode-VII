@@ -30,7 +30,7 @@ pause pnc
 		decode `var', gen(`var'_lab)
 		replace `var'_lab = lower(`var'_lab )
 		replace  `var'_skill= 1 if ///
-		(regexm(`var'_lab,"doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|skilled|sub-assistant community medical officer|clinical officer|mch aide|trained|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|matron|general practitioner|health officer|extension|ob-gy") ///
+		(regexm(`var'_lab,"doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|skilled|sub-assistant community medical officer|clinical officer|mch aide|trained|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|matron|general practitioner|health officer|extension|ob-gy|gynecologist") ///
 		& (regexm(`var'_lab,"trained") | !regexm(`var'_lab,"na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife|box|other|community"))) 
 		
 		if inlist(name,"Liberia2019"){

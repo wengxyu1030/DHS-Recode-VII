@@ -22,7 +22,7 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 	local lab: variable label `var' 
 
     replace `var' = . if  ///
-	!regexm("`lab'","trained") & (!regexm("`lab'","doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|community skilled birth attendant|sub-assistant community medical|medical assistant|health assistant|general practitioner|matron|health officer|extension|ob-gy") ///
+	!regexm("`lab'","trained") & (!regexm("`lab'","doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|community skilled birth attendant|sub-assistant community medical|medical assistant|health assistant|general practitioner|matron|health officer|extension|ob-gy|gynecologist") ///
 	|regexm("`lab'","na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife|box|community|village birth attendant"))
 	
 	replace `var' = . if !inlist(`var',0,1)

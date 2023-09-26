@@ -200,7 +200,7 @@ tab m1
 
 	capture confirm variable m57e
 	if !_rc {
-		if !inlist(name,"Benin2017","Turkey2018"){
+		if !inlist(name,"Benin2017","Turkey2018","Gabon2019-21"){
 			foreach var of varlist m57e-m57l {
 				replace c_anc_public = 1 if `var'==1
 			}
