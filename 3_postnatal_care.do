@@ -2,7 +2,10 @@
 ******************************
 ***Postnatal Care************* 
 ****************************** 
+pause pnc
+/*
 
+*/
 
     *c_pnc_skill: m52 m64 m68 m72 m76 by var label text
 	*c_pnc_any : mother OR child receive PNC in first six weeks by skilled health worker	

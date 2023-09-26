@@ -1,6 +1,10 @@
 *This file is to tag the reference period and year for w_papsmear and w_mammogram
 *utilizing the infomraiton from 15_Append_Aggregate.do
 
+pause papsmear and mammogram
+/*
+
+*/
 
 ************************************
 *identify the non-missing indicator*

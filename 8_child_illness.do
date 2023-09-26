@@ -2,6 +2,11 @@
 **************************
 *** Child illness ********
 **************************   
+pause ill
+/*
+
+*/	
+	
 	
 *c_diarrhea Child with diarrhea in last 2 weeks
 	    gen c_diarrhea=(h11   ==1|h11   ==2) 						/*symptoms in last two weeks*/

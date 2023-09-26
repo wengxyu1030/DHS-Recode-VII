@@ -2,6 +2,11 @@
 ********************
 *** adult***********
 ********************
+pause adult
+/*
+
+*/
+
 *a_inpatient_1y	18y+ household member hospitalized in last 12 months (1/0)
     gen a_inpatient_1y = . 
     gen a_inpatient_ref =.

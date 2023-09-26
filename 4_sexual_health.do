@@ -2,6 +2,10 @@
 ************************
 *** Sexual health*******
 ************************ 	
+pause sexual health
+/*
+
+*/	
 	
 	*w_condom_conc: 18-49y woman who had more than one sexual partner in the last 12 months and used a condom during last intercourse
      ** Concurrent partnerships 

@@ -1,6 +1,11 @@
 ******************************
 *** Delivery Care************* 
 ******************************
+pause delivery
+/*
+
+*/
+
 gen DHS_phase=substr(v000, 3, 1)
 destring DHS_phase, replace
 

@@ -2,6 +2,12 @@
 ******************************
 *** Child anthropometrics ****
 ******************************   
+pause anthropo
+/*
+
+*/
+
+
 *c_stunted: Child under 5 stunted
 * DW Nov 2021 - add hc72
 

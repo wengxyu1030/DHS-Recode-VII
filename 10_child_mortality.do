@@ -2,6 +2,10 @@
 ******************************
 *** Child mortality***********
 ******************************
+pause mortality_10
+/*
+
+*/
 
 *mor_dob				Child date of birth (cmc)
     g mor_dob = b3
