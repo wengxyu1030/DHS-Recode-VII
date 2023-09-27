@@ -55,6 +55,13 @@ if inlist(name,"SouthAfrica2016") {
 	drop _m
 }
 
+if inlist(name, "Gabon2019-21") {
+	drop w_papsmear
+	gen w_papsmear = s1326 if !inlist(s1326,.,8)
+	replace w_papsmear = 0 if w_papsmear == 1 & s1327 > 3 //period:3yr
+	replace w_papsmear = . if s1323 ==  0 | s1324 > 90
+	/* Cervical Cancer Test - Please be cautious when using this variable. */
+}
 
 *Add reference period.
 gen w_papsmear_ref = ""
@@ -68,7 +75,9 @@ if inlist(name, "Jordan2017") {
 if inlist(name, "SouthAfrica2016") {
 	replace w_papsmear_ref = "3yr"
 }
-
+if inlist(name, "Gabon2019-21") {
+	replace w_papsmear_ref = "3yr"
+}
 //if not in adeptfile, please generate value, otherwise keep it missing. 
 
 //if the preferred recall is not available (3 years for pap, 2 years for mam) use shortest other available recall 
@@ -87,7 +96,9 @@ if inlist(name, "Jordan2017") {
 if inlist(name, "SouthAfrica2016") {
 	replace w_papsmear_age = "20-49"
 }
-
+if inlist(name, "Gabon2019-21") {
+	replace w_papsmear_age = "15-49"
+}
 
 //if not in adeptfile, please generate value, otherwise keep it missing. 
 

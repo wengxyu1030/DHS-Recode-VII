@@ -44,9 +44,8 @@ if `pc' != 0 global DO "${root}/STATA/DO/SC-DW2021-2022/DHS-Recode-VII"
 do "${DO}/0_GLOBAL.do"
 
 global DHScountries_Recode_VII "Senegal2018 Senegal2019 Afghanistan2015 Albania2017 Angola2015 Armenia2015 Benin2017 Burundi2016 Cameroon2018 Colombia2015 Ethiopia2016 Guinea2018 Haiti2016 Indonesia2017 Jordan2017 Malawi2015 Maldives2016 Mali2018 Myanmar2015 Nepal2016 Nigeria2018 PapuaNewGuinea2017 Philippines2017 Senegal2017 SouthAfrica2016 Tajikistan2017 Tanzania2015 TimorLeste2016 Uganda2016 Zambia2018 Zimbabwe2015 Liberia2019 Peru2016 Turkey2018 Gabon2019-21"
-global DHScountries_Recode_VII ""
 
-pause on
+*pause on
 
 foreach name in $DHScountries_Recode_VII  {	
 clear 
