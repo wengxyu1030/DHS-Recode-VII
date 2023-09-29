@@ -56,10 +56,9 @@ if inlist(name,"SouthAfrica2016") {
 }
 
 if inlist(name, "Gabon2019-21") {
-	drop w_papsmear
-	gen w_papsmear = s1326 if !inlist(s1326,.,8)
-	replace w_papsmear = 0 if w_papsmear == 1 & s1327 > 3 //period:3yr
-	replace w_papsmear = . if s1323 ==  0 | s1324 > 90
+	gen w_cervical = s1326 if !inlist(s1326,.,8)
+	replace w_cervical = 0 if w_cervical == 1 & s1327 > 3 //period:3yr
+	replace w_cervical = . if s1323 ==  0 | s1324 > 90
 	/* Cervical Cancer Test - Please be cautious when using this variable. */
 }
 
@@ -76,7 +75,7 @@ if inlist(name, "SouthAfrica2016") {
 	replace w_papsmear_ref = "3yr"
 }
 if inlist(name, "Gabon2019-21") {
-	replace w_papsmear_ref = "3yr"
+	gen w_cervical_ref = "3yr"
 }
 //if not in adeptfile, please generate value, otherwise keep it missing. 
 
@@ -97,7 +96,7 @@ if inlist(name, "SouthAfrica2016") {
 	replace w_papsmear_age = "20-49"
 }
 if inlist(name, "Gabon2019-21") {
-	replace w_papsmear_age = "15-49"
+	gen w_cervical_age = "15-49"
 }
 
 //if not in adeptfile, please generate value, otherwise keep it missing. 
